@@ -6,13 +6,11 @@ import admin.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/agent")
@@ -27,11 +25,11 @@ public class AgentController {
     @GetMapping("/list")
     public String getAgentList(
             Model model
-    ){
+    ) {
         ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
         ApiResponse apiResponse = responseEntity.getBody();
-        model.addAttribute("agent",new AgentReceiveDto());
-        model.addAttribute("agent_list",(List<AgentResponse>)apiResponse.getT());
+        model.addAttribute("agent", new AgentReceiveDto());
+        model.addAttribute("agent_list", (List<AgentResponse>) apiResponse.getT());
         return "/admin/service/list";
     }
 
@@ -39,9 +37,19 @@ public class AgentController {
     public String addAgent(
             Model model,
             @ModelAttribute AgentReceiveDto agent
-            ){
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/agent/add", agent, ApiResponse.class);
+    ) {
+        restTemplate.postForEntity("http://localhost:8080/agent/add", agent, ApiResponse.class);
+        return getAgentList(model);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteAgent(
+            Model model,
+            @PathVariable Optional<Long> id
+    ) {
+        if (id.isPresent()) {
+            restTemplate.postForEntity("http://localhost:8080/agent/delete", id.get(), ApiResponse.class);
+        }
         return getAgentList(model);
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -23,128 +23,349 @@
 
 <body>
 <div class="wrapper toggled">
-
     <div th:replace="fragments/admin/sidebar :: sidebar"></div>
     <div th:replace="fragments/admin/header :: header(${title})"></div>
-
     <main class="content mb-5">
         <div class="custom-form">
-<!--            <form action="" id="form_filter" method="post">-->
-<!--                <div class="row" style="padding-right: 15px;">-->
-<!--                    <div class="col-sm-6 col-md-3 col-lg-2">-->
-<!--                        <div class="form-group">-->
-<!--                            <label>Сервис ID</label>-->
-<!--                            <input type="text"-->
-<!--                                   class="form-control"-->
-<!--                                   name="service_id"-->
-<!--                                   th:value="${service_id}"-->
-<!--                                   id="input_merchant_id">-->
-<!--                        </div>-->
-<!--                    </div>-->
+            <!--            <form action="" id="form_filter" method="post">-->
+            <!--                <div class="row" style="padding-right: 15px;">-->
+            <!--                    <div class="col-sm-6 col-md-3 col-lg-2">-->
+            <!--                        <div class="form-group">-->
+            <!--                            <label>Сервис ID</label>-->
+            <!--                            <input type="text"-->
+            <!--                                   class="form-control"-->
+            <!--                                   name="service_id"-->
+            <!--                                   th:value="${service_id}"-->
+            <!--                                   id="input_merchant_id">-->
+            <!--                        </div>-->
+            <!--                    </div>-->
 
-<!--                    <div class="col-sm-6 col-md-4 col-lg-3">-->
-<!--                        <div class="form-group">-->
-<!--                            <label>Имя сервиса</label>-->
-<!--                            <input type="text"-->
-<!--                                   class="form-control"-->
-<!--                                   name="name"-->
-<!--                                   th:value="${name}"-->
-<!--                                   id="input_merchant_name">-->
-<!--                        </div>-->
-<!--                    </div>-->
+            <!--                    <div class="col-sm-6 col-md-4 col-lg-3">-->
+            <!--                        <div class="form-group">-->
+            <!--                            <label>Имя сервиса</label>-->
+            <!--                            <input type="text"-->
+            <!--                                   class="form-control"-->
+            <!--                                   name="name"-->
+            <!--                                   th:value="${name}"-->
+            <!--                                   id="input_merchant_name">-->
+            <!--                        </div>-->
+            <!--                    </div>-->
 
-<!--                    <div class="col-sm-6 col-md-3 col-lg-2">-->
-<!--                        <div class="form-group">-->
-<!--                            <label style="width: 100%;">Проверить fraud</label>-->
-<!--                            <input class="form-control" data-height="25"-->
-<!--                                   data-off="Неактивный"-->
-<!--                                   data-offstyle="secondary"-->
-<!--                                   data-on="Активный" data-onstyle="primary"-->
-<!--                                   data-toggle="toggle"-->
-<!--                                   data-width="130"-->
-<!--                                   style="display: contents;"-->
-<!--                                   name="check_fraud"-->
-<!--                                   th:checked="${check_fraud}"-->
-<!--                                   type="checkbox"-->
-<!--                            >-->
-<!--                        </div>-->
-<!--                    </div>-->
+            <!--                    <div class="col-sm-6 col-md-3 col-lg-2">-->
+            <!--                        <div class="form-group">-->
+            <!--                            <label style="width: 100%;">Проверить fraud</label>-->
+            <!--                            <input class="form-control" data-height="25"-->
+            <!--                                   data-off="Неактивный"-->
+            <!--                                   data-offstyle="secondary"-->
+            <!--                                   data-on="Активный" data-onstyle="primary"-->
+            <!--                                   data-toggle="toggle"-->
+            <!--                                   data-width="130"-->
+            <!--                                   style="display: contents;"-->
+            <!--                                   name="check_fraud"-->
+            <!--                                   th:checked="${check_fraud}"-->
+            <!--                                   type="checkbox"-->
+            <!--                            >-->
+            <!--                        </div>-->
+            <!--                    </div>-->
 
-<!--                    <div class="col-sm-6 col-md-3 col-lg-2">-->
-<!--                        <div class="form-group">-->
-<!--                            <label style="width: 100%;">Проверить прокуратура</label>-->
-<!--                            <input class="form-control" data-height="25"-->
-<!--                                   data-off="Неактивный"-->
-<!--                                   data-offstyle="secondary"-->
-<!--                                   data-on="Активный" data-onstyle="primary"-->
-<!--                                   data-toggle="toggle"-->
-<!--                                   data-width="130"-->
-<!--                                   style="display: contents;"-->
-<!--                                   name="check_p"-->
-<!--                                   th:checked="${check_p}"-->
-<!--                                   type="checkbox"-->
-<!--                            >-->
-<!--                        </div>-->
-<!--                    </div>-->
+            <!--                    <div class="col-sm-6 col-md-3 col-lg-2">-->
+            <!--                        <div class="form-group">-->
+            <!--                            <label style="width: 100%;">Проверить прокуратура</label>-->
+            <!--                            <input class="form-control" data-height="25"-->
+            <!--                                   data-off="Неактивный"-->
+            <!--                                   data-offstyle="secondary"-->
+            <!--                                   data-on="Активный" data-onstyle="primary"-->
+            <!--                                   data-toggle="toggle"-->
+            <!--                                   data-width="130"-->
+            <!--                                   style="display: contents;"-->
+            <!--                                   name="check_p"-->
+            <!--                                   th:checked="${check_p}"-->
+            <!--                                   type="checkbox"-->
+            <!--                            >-->
+            <!--                        </div>-->
+            <!--                    </div>-->
 
-<!--                    <input id="input_page" name="page" th:value="${page}" type="hidden">-->
+            <!--                    <input id="input_page" name="page" th:value="${page}" type="hidden">-->
 
-<!--                    <div class="clearfix"></div>-->
+            <!--                    <div class="clearfix"></div>-->
 
-<!--                    <hr class="form-control">-->
+            <!--                    <hr class="form-control">-->
 
-<!--                    <div class="col-12 d-flex">-->
-<!--                        <button class="btn-reset" onclick="clearForm()" type="button">Cбросить</button>-->
-<!--                        <button class="btn-ready" type="submit">Готово</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </form>-->
+            <!--                    <div class="col-12 d-flex">-->
+            <!--                        <button class="btn-reset" onclick="clearForm()" type="button">Cбросить</button>-->
+            <!--                        <button class="btn-ready" type="submit">Готово</button>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </form>-->
         </div>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            add agent
-        </button>
+        <div th:if="${agent_list != null}">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    th:if="${'ADMIN' == role}" sec:authorize="hasAuthority('ADD_AGENT')">
+                Добавить агент
+            </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">add agent</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="#" th:action="@{/admin/agent/add}" th:object="${agent}" method="post">
-                            <p>Message: <input type="text" th:field="*{name}" /></p>
-                            <p><input type="submit" value="Submit" /></p>
-                        </form>
+            <!-- Modal -->
+            <div class="modal fade" id="agentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="agentModalLabel">добавить агент</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" th:action="@{/admin/agent/add}" th:object="${agent}" method="post">
+                                <p>Введите имя агента: <input type="text" th:field="*{name}"/></p>
+                                <p><input type="submit" value="добавить агент"/></p>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="data-list">
-
-            <table class="table mb-0">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Имя агента</th>
-                    <th class="action-column">
+            <div class="data-list">
+                <table class="table mb-0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя агента</th>
+                        <th sec:authorize="hasAuthority('DELETE_AGENT')">Удалить</th>
+                        <th class="action-column">
                         <span class="fa fa-ellipsis-h d-flex justify-content-center"
                               style="font-size: 1.5em;"></span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="agent , index :${agent_list}">
-                    <td><span th:text="${agent.id}">1</span></td>
-                    <td><span th:text="${agent.name}">1</span></td>
-                </tr>
-                </tbody>
-            </table>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="agent , index :${agent_list}">
+                        <td><span th:text="${agent.id}">1</span></td>
+                        <td><span th:text="${agent.name}">1</span></td>
+                        <td><a class="btn-danger"
+                               th:href="@{'/admin/agent/delete/' + ${agent.id}}"
+                               sec:authorize="hasAuthority('DELETE_AGENT')">Удалить</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div th:if="${agent_merchant_list != null}">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    th:if="${'ADMIN' == role}" sec:authorize="hasAuthority('ADD_AGENT_MERCHANT')">
+                Добавить агентмерчант
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="agentMerchantModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="agentMerchantModalLabel">добавить агентмерчант</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" th:action="@{/admin/agentMerchant/add}" th:object="${agentMerchant}"
+                                  method="post">
+                                <p>Введите имя агентмерчанта: <input type="text" th:field="*{name}"/></p>
+                                <p><input type="submit" value="добавить агентмерчант"/></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-list">
+                <table class="table mb-0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя агентмерчанта</th>
+                        <th sec:authorize="hasAuthority('DELETE_AGENT_MERCHANT')">Удалить</th>
+                        <th class="action-column">
+                        <span class="fa fa-ellipsis-h d-flex justify-content-center"
+                              style="font-size: 1.5em;"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="agentMerchant , index :${agent_merchant_list}">
+                        <td><span th:text="${agentMerchant.id}">1</span></td>
+                        <td><span th:text="${agentMerchant.name}">1</span></td>
+                        <td><a class="btn-danger"
+                               th:href="@{'/admin/merchant/delete/' + ${agentMerchant.id}}"
+                               sec:authorize="hasAuthority('DELETE_AGENT_MERCHANT')">Удалить</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div th:if="${merchant_list != null}">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    th:if="${'ADMIN' == role}" sec:authorize="hasAuthority('ADD_MERCHANT')">
+                Добавить мерчант
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="merchantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="merchantModalLabel">добавить мерчант</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" th:action="@{/admin/merchant/add}" th:object="${merchant}" method="post">
+                                <p>Введите имя мерчанта: <input type="text" th:field="*{name}"/></p>
+                                <p><input type="submit" value="добавить мерчант"/></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-list">
+                <table class="table mb-0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя мерчанта</th>
+                        <th sec:authorize="hasAuthority('DELETE_MERCHANT')">Удалить</th>
+                        <th class="action-column">
+                        <span class="fa fa-ellipsis-h d-flex justify-content-center"
+                              style="font-size: 1.5em;"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="merchant , index :${merchant_list}">
+                        <td><span th:text="${merchant.id}">1</span></td>
+                        <td><span th:text="${merchant.name}">1</span></td>
+                        <td><a class="btn-danger"
+                               th:href="@{'/admin/merchant/delete/' + ${merchant.id}}"
+                               sec:authorize="hasAuthority('DELETE_MERCHANT')">Удалить</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div th:if="${gateway_list != null}">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    th:if="${'ADMIN' == role}" sec:authorize="hasAuthority('ADD_GATEWAY')">
+                Добавить гатевай
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="gatewayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="gatewayModalLabel">добавить гатевай</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" th:action="@{/admin/gateway/add}" th:object="${gateway}" method="post">
+                                <p>Введите имя гатевайа: <input type="text" th:field="*{name}"/></p>
+                                <p><input type="submit" value="добавить гатевай"/></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-list">
+                <table class="table mb-0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя гатевайа</th>
+                        <th sec:authorize="hasAuthority('DELETE_GATEWAY')">Удалить</th>
+                        <th class="action-column">
+                        <span class="fa fa-ellipsis-h d-flex justify-content-center"
+                              style="font-size: 1.5em;"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="gateway , index :${gateway_list}">
+                        <td><span th:text="${gateway.id}">1</span></td>
+                        <td><span th:text="${gateway.name}">1</span></td>
+                        <td><a class="btn-danger"
+                               th:href="@{'/admin/gateway/delete/' + ${gateway.id}}"
+                               sec:authorize="hasAuthority('DELETE_GATEWAY')">Удалить</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div th:if="${gatewayMerchant_list != null}">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    th:if="${'ADMIN' == role}" sec:authorize="hasAuthority('ADD_GATEWAY_MERCHANT')">
+                Добавить гатеваймерчант
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="gatewayMerchantModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="gatewayMerchantModalLabel">добавить гатеваймерчант</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" th:action="@{/admin/gatewayMerchant/add}" th:object="${gatewayMerchant}"
+                                  method="post">
+                                <p>Введите имя гатеваймерчанта: <input type="text" th:field="*{name}"/></p>
+                                <p><input type="submit" value="добавить гатеваймерчант"/></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-list">
+                <table class="table mb-0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя гатеваймерчанта</th>
+                        <th sec:authorize="hasAuthority('DELETE_GATEWAY_MERCHANT')">Удалить</th>
+                        <th class="action-column">
+                        <span class="fa fa-ellipsis-h d-flex justify-content-center"
+                              style="font-size: 1.5em;"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="gatewayMerchant , index :${gatewayMerchant_list}">
+                        <td><span th:text="${gatewayMerchant.id}">1</span></td>
+                        <td><span th:text="${gatewayMerchant.name}">1</span></td>
+                        <td><a class="btn-danger"
+                               th:href="@{'/admin/gatewayMerchant/delete/' + ${gatewayMerchant.id}}"
+                               sec:authorize="hasAuthority('DELETE_GATEWAY_MERCHANT')">Удалить</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </main>
@@ -160,6 +381,7 @@
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').trigger('focus')
     })
+
     function deleteMerchant(merchantId) {
         $.post("delete", {merchant_id: merchantId})
             .done(function (data) {
@@ -188,8 +410,8 @@
 
     let input = document.getElementById("name");
 
-    function addAgent(){
-        const data = { name: input.value };
+    function addAgent() {
+        const data = {name: input.value};
         console.log(data);
 
         fetch('http://localhost:8080/agent/add', {
