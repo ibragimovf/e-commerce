@@ -171,7 +171,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="#" th:action="@{/admin/agentMerchant/add}" th:object="${agentMerchant}"
+                            <form action="#" th:action="@{/admin/agent/merchant/add}" th:object="${agentMerchant}"
                                   method="post">
                                 <p>Введите имя агентмерчанта: <input type="text" th:field="*{name}"/></p>
                                 <p><input type="submit" value="добавить агентмерчант"/></p>
@@ -199,7 +199,7 @@
                         <td><span th:text="${agentMerchant.id}">1</span></td>
                         <td><span th:text="${agentMerchant.name}">1</span></td>
                         <td><a class="btn-danger"
-                               th:href="@{'/admin/merchant/delete/' + ${agentMerchant.id}}"
+                               th:href="@{'/admin/agent/merchant/delete/' + ${agentMerchant.id}}"
                                sec:authorize="hasAuthority('DELETE_AGENT_MERCHANT')">Удалить</a></td>
                     </tr>
                     </tbody>
@@ -332,7 +332,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="#" th:action="@{/admin/gatewayMerchant/add}" th:object="${gatewayMerchant}"
+                            <form action="#" th:action="@{/admin/gateway/merchant/add}" th:object="${gatewayMerchant}"
                                   method="post">
                                 <p>Введите имя гатеваймерчанта: <input type="text" th:field="*{name}"/></p>
                                 <p><input type="submit" value="добавить гатеваймерчант"/></p>
@@ -360,7 +360,7 @@
                         <td><span th:text="${gatewayMerchant.id}">1</span></td>
                         <td><span th:text="${gatewayMerchant.name}">1</span></td>
                         <td><a class="btn-danger"
-                               th:href="@{'/admin/gatewayMerchant/delete/' + ${gatewayMerchant.id}}"
+                               th:href="@{'/admin/gateway/merchant/delete/' + ${gatewayMerchant.id}}"
                                sec:authorize="hasAuthority('DELETE_GATEWAY_MERCHANT')">Удалить</a></td>
                     </tr>
                     </tbody>

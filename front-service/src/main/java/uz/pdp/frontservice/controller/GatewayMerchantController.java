@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/admin/gatewayMerchant")
+@RequestMapping("/admin/gateway/merchant")
 public class GatewayMerchantController {
 
     private final RestTemplate restTemplate;

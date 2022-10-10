@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/admin/agentMerchant")
+@RequestMapping("/admin/agent/merchant")
 public class AgentMerchantController {
 
     private final RestTemplate restTemplate;
