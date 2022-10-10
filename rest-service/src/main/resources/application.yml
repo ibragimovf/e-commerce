@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/e_commerce
+    password: 1
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+#      spring:
+#        datasource:
+#          hikari:
+#            maximum-pool-size=2:
