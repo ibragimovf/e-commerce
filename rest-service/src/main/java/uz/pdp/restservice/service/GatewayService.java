@@ -23,16 +23,16 @@ public class GatewayService implements BaseService<GatewayReceiveDto, List<Gatew
 
     @Override
     public ApiResponse<Object> add(GatewayReceiveDto gatewayReceiveDto) {
-//        GatewayEntity gatewayEntity = modelMapper.map(gatewayReceiveDto, GatewayEntity.class);
         GatewayEntity gatewayEntity= new GatewayEntity();
-        gatewayEntity.setName(gatewayEntity.getName());
+        gatewayEntity.setName(gatewayReceiveDto.getName());
         gatewayRepository.save(gatewayEntity);
         return new ApiResponse<>(0, SUCCESS);
     }
 
     @Override
     public ApiResponse<List<GatewayEntity>> getList() {
-        return new ApiResponse<>(0, SUCCESS, gatewayRepository.findAll());
+        List<GatewayEntity> list = gatewayRepository.findAll();
+        return new ApiResponse<>(0, SUCCESS, list);
     }
 
     @Override

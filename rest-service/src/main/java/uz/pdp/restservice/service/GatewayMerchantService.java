@@ -4,8 +4,10 @@ import admin.receive.GatewayMerchantReceiveDto;
 import admin.response.ApiResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import uz.pdp.restservice.model.GatewayEntity;
 import uz.pdp.restservice.model.GatewayMerchantEntity;
 import uz.pdp.restservice.repository.GatewayMerchantRepository;
+import uz.pdp.restservice.repository.GatewayRepository;
 import uz.pdp.restservice.service.base.BaseService;
 
 import java.util.List;
@@ -16,26 +18,25 @@ public class GatewayMerchantService implements BaseService<GatewayMerchantReceiv
 
     private final GatewayMerchantRepository gatewayMerchantRepository;
     private final ModelMapper modelMapper;
-    private final GatewayMerchantRepository gatewayMerchantRepositry;
+    private final GatewayRepository gatewayRepository;
 
-    public GatewayMerchantService(GatewayMerchantRepository gatewayMerchantRepository, ModelMapper modelMapper, GatewayMerchantRepository gatewayMerchantRepositry) {
+    public GatewayMerchantService(GatewayMerchantRepository gatewayMerchantRepository, ModelMapper modelMapper, GatewayRepository gatewayRepository) {
         this.gatewayMerchantRepository = gatewayMerchantRepository;
         this.modelMapper = modelMapper;
-        this.gatewayMerchantRepositry = gatewayMerchantRepositry;
+        this.gatewayRepository = gatewayRepository;
     }
 
     @Override
     public ApiResponse<Object> add(GatewayMerchantReceiveDto gatewayMerchantReceiveDto) {
-//        GatewayMerchantEntity gatewayMerchantEntity = modelMapper.map(gatewayMerchantReceiveDto, GatewayMerchantEntity.class);
-        GatewayMerchantEntity gatewayMerchantEntity=new GatewayMerchantEntity();
-        Optional<GatewayMerchantEntity> gatewayMerchant = gatewayMerchantRepository.findById(gatewayMerchantReceiveDto.getGatewayId());
-        if (gatewayMerchant.isPresent()){
-            gatewayMerchantEntity.setGatewayEntity(gatewayMerchant.get().getGatewayEntity());
-            gatewayMerchantEntity.setName(gatewayMerchantReceiveDto.getName());
-            gatewayMerchantRepository.save(gatewayMerchantEntity);
-            return new ApiResponse<>(0, SUCCESS);
+        Optional<GatewayEntity> optionalGateway = gatewayRepository.findById(gatewayMerchantReceiveDto.getGatewayId());
+        if (optionalGateway.isEmpty()){
+            return new ApiResponse<>(400,"gateway not exists");
         }
-       return new ApiResponse<>(400,"gateway not exists");
+        GatewayMerchantEntity gatewayMerchantEntity=new GatewayMerchantEntity();
+        gatewayMerchantEntity.setGatewayEntity(optionalGateway.get());
+        gatewayMerchantEntity.setName(gatewayMerchantReceiveDto.getName());
+        gatewayMerchantRepository.save(gatewayMerchantEntity);
+        return new ApiResponse<>(0, SUCCESS);
     }
 
     @Override

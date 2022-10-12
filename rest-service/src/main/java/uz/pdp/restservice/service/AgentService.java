@@ -23,7 +23,7 @@ public class AgentService implements BaseService<AgentReceiveDto, List<AgentEnti
     @Override
     public ApiResponse<Object> add(AgentReceiveDto agentReceiveDto) {
         AgentEntity agentEntity =new AgentEntity();
-        agentEntity.setName(agentEntity.getName());
+        agentEntity.setName(agentReceiveDto.getName());
         agentRepository.save(agentEntity);
         return new ApiResponse<>(0, SUCCESS);
     }

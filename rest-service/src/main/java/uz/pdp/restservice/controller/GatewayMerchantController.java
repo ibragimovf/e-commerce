@@ -22,7 +22,7 @@ public class GatewayMerchantController {
     }
 
     @PostMapping("/add")
-    public ApiResponse add(GatewayMerchantReceiveDto gatewayMerchantReceiveDto) {
+    public ApiResponse add(@RequestBody GatewayMerchantReceiveDto gatewayMerchantReceiveDto) {
         return baseService.add(gatewayMerchantReceiveDto);
     }
 

@@ -22,7 +22,7 @@ public class GatewayController {
     }
 
     @PostMapping("/add")
-    public ApiResponse add(GatewayReceiveDto gatewayReceiveDto) {
+    public ApiResponse add(@RequestBody GatewayReceiveDto gatewayReceiveDto) {
         return baseService.add(gatewayReceiveDto);
     }
 

@@ -23,7 +23,7 @@ public class AgentController {
     }
 
     @PostMapping("/add")
-    public ApiResponse add(AgentReceiveDto agentReceiveDto) {
+    public ApiResponse add(@RequestBody AgentReceiveDto agentReceiveDto) {
         return baseService.add(agentReceiveDto);
     }
 
