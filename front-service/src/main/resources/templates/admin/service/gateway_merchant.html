@@ -127,6 +127,7 @@
                                         id="exampleInputFullName1"
                                         name="name"
                                 >
+
                             </div>
                             <select
                                     name="gatewayId"
@@ -139,7 +140,6 @@
                                         th:value="${gateway.id}"
                                         th:text="${gateway.name}"
                                 ></option>
-
                             </select>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
@@ -149,11 +149,9 @@
         </div>
 
         <div class="data-list">
-
             <table class="table mb-0">
                 <thead>
                 <tr>
-
                     <th>ID</th>
                     <th>Gateway merchant nomi</th>
                     <th>Gateway nomi</th>
@@ -168,7 +166,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="gateway_merchant, index :${gateway_merchant_list}">
+                <tr th:each="gateway_merchant , index :${gateway_merchant_list}">
                     <td><span th:text="${gateway_merchant.id}">1</span></td>
                     <td><span th:text="${gateway_merchant.name}">1</span></td>
                     <td><span th:text="${gateway_merchant.gateway.name}">1</span></td>
@@ -182,6 +180,7 @@
                 </tbody>
             </table>
         </div>
+
     </main>
 </div>
 <script src="/plugins/jquery/jquery-3.5.1.min.js"></script>

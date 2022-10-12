@@ -26,10 +26,9 @@ public class AgentController {
 
     @GetMapping("/list")
     public String getAgentList(Model model) {
-        ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
-        ApiResponse apiResponse = responseEntity.getBody();
+        ResponseEntity<ApiResponse> agent_list = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
         model.addAttribute("agent", new AgentReceiveDto());
-        model.addAttribute("agent_list", (List<AgentResponse>) apiResponse.getT());
+        model.addAttribute("agent_list", (List<AgentResponse>) agent_list.getBody().getT());
         return "/admin/service/agent";
     }
 

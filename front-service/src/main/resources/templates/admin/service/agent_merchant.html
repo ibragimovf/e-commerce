@@ -111,7 +111,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add gateway merchant</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add agent merchant</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -132,17 +132,16 @@
                             <div class="mb-3">
                                 <label for="exampleInputFullName1" class="form-label">min Amount</label>
                                 <input
-                                        type="text"
+                                        type="number"
                                         class="form-control"
                                         id="exampleInputFullName2"
                                         name="minSum"
                                 >
-
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputFullName1" class="form-label">max Amount</label>
                                 <input
-                                        type="text"
+                                        type="number"
                                         class="form-control"
                                         id="exampleInputFullName3"
                                         name="maxSum"
@@ -153,14 +152,24 @@
                                     id="exampleInputPosition1"
                                     class="form-select"
                                     aria-label="Default select example">
-                                <option selected th:value="null">Select position:</option>
-
+                                <option selected th:value="null">Select agent:</option>
                                 <option
                                         th:each="agent:${agent_list}"
                                         th:value="${agent.id}"
                                         th:text="${agent.name}"
                                 ></option>
-
+                            </select>
+                            <select
+                                    name="merchantId"
+                                    id="exampleInputPosition2"
+                                    class="form-select"
+                                    aria-label="Default select example">
+                                <option selected th:value="null">Select agent:</option>
+                                <option
+                                        th:each="merchant:${merchant_list}"
+                                        th:value="${merchant.id}"
+                                        th:text="${merchant.name}"
+                                ></option>
                             </select>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
@@ -175,6 +184,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Agent merchant nomi</th>
+                    <th>Min sum</th>
+                    <th>Max sum</th>
+                    <th>Agent nomi</th>
+                    <th>Merchant nomi</th>
                     <th class="action-column">
                         <span th:text="Edit" class="fa fa-ellipsis-h d-flex justify-content-center"
                               style="font-size: 1.5em;"></span>
@@ -189,6 +202,10 @@
                 <tr th:each="agent_merchant , index :${agent_merchant_list}">
                     <td><span th:text="${agent_merchant.id}">1</span></td>
                     <td><span th:text="${agent_merchant.name}">1</span></td>
+                    <td><span th:text="${agent_merchant.maxSum}">1</span></td>
+                    <td><span th:text="${agent_merchant.minSum}">1</span></td>
+                    <td><span th:text="${agent_merchant.agent.name}">1</span></td>
+                    <td><span th:text="${agent_merchant.merchant.name}">1</span></td>
                     <td>
                         <a class="btn btn-warning" th:href="@{update/{id}(id=${agent_merchant.id})}">Edit</a>
                     </td>

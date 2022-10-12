@@ -127,6 +127,18 @@
                                         name="name"
                                 >
                             </div>
+                            <select
+                                    name="gatewayId"
+                                    id="exampleInputPosition2"
+                                    class="form-select"
+                                    aria-label="Default select example">
+                                <option selected th:value="null">Select agent:</option>
+                                <option
+                                        th:each="gateway_merchant:${gateway_merchant_list}"
+                                        th:value="${gateway_merchant.id}"
+                                        th:text="${gateway_merchant.name}"
+                                ></option>
+                            </select>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
                     </div>
@@ -141,6 +153,7 @@
 
                     <th>ID</th>
                     <th>Merchant nomi</th>
+                    <th>Gateway merchant nomi</th>
                     <th class="action-column">
                         <span th:text="Edit" class="fa fa-ellipsis-h d-flex justify-content-center"
                               style="font-size: 1.5em;"></span>
@@ -155,6 +168,7 @@
                 <tr th:each="merchant , index :${merchant_list}">
                     <td><span th:text="${merchant.id}">1</span></td>
                     <td><span th:text="${merchant.name}">1</span></td>
+                    <td><span th:text="${merchant.gatewayMerchant.name}">1</span></td>
                     <td>
                         <a class="btn btn-warning" th:href="@{update/{id}(id=${merchant.id})}">Edit</a>
                     </td>

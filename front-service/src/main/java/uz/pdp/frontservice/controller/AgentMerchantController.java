@@ -4,6 +4,7 @@ import admin.receive.AgentMerchantReceiveDto;
 import admin.response.AgentMerchantResponse;
 import admin.response.AgentResponse;
 import admin.response.ApiResponse;
+import admin.response.MerchantResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +30,11 @@ public class AgentMerchantController {
     public String getAgentMerchantList(Model model) {
         ResponseEntity<ApiResponse> agentMerchantList = restTemplate.getForEntity("http://localhost:8080/agent/merchant/get", ApiResponse.class);
         ResponseEntity<ApiResponse> agentList = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
+        ResponseEntity<ApiResponse> merchantList = restTemplate.getForEntity("http://localhost:8080/merchant/get", ApiResponse.class);
         model.addAttribute("agent_merchant", new AgentMerchantReceiveDto());
         model.addAttribute("agent_merchant_list", (List<AgentMerchantResponse>) agentMerchantList.getBody().getT());
         model.addAttribute("agent_list", (List<AgentResponse>) agentList.getBody().getT());
+        model.addAttribute("merchant_list", (List<MerchantResponse>) merchantList.getBody().getT());
         return "/admin/service/agent_merchant";
     }
 
