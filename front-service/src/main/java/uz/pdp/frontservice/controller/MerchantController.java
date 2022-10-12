@@ -13,8 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/merchant")
-public class
-MerchantController {
+public class MerchantController {
 
     private final RestTemplate restTemplate;
 
@@ -23,39 +22,29 @@ MerchantController {
     }
 
     @GetMapping("/list")
-    public String getMerchantList(
-            Model model
-    ){
+    public String getMerchantList(Model model) {
         ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/merchant/get", ApiResponse.class);
         ApiResponse apiResponse = responseEntity.getBody();
-        model.addAttribute("merchant",new MerchantReceiveDto());
-        model.addAttribute("merchant_list",(List<AgentResponse>)apiResponse.getT());
+        model.addAttribute("merchant", new MerchantReceiveDto());
+        model.addAttribute("merchant_list", (List<AgentResponse>) apiResponse.getT());
         return "admin/service/merchant";
     }
 
     @PostMapping("/add")
-    public String addMerchant(
-            Model model,
-            @ModelAttribute MerchantReceiveDto merchant
-            ){
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/merchant/add", merchant, ApiResponse.class);
+    public String addMerchant(Model model, @ModelAttribute MerchantReceiveDto merchant) {
+        restTemplate.postForEntity("http://localhost:8080/merchant/add", merchant, ApiResponse.class);
         return getMerchantList(model);
     }
 
     @PutMapping("/update")
-    public String updateMerchant(
-            Model model,
-            @ModelAttribute MerchantReceiveDto merchant
-    ){
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/merchant/update", merchant, ApiResponse.class);
+    public String updateMerchant(Model model, @ModelAttribute MerchantReceiveDto merchant) {
+        restTemplate.postForEntity("http://localhost:8080/merchant/update", merchant, ApiResponse.class);
         return getMerchantList(model);
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteMerchant(@PathVariable("id")long id,Model model){
-        restTemplate.delete("http://localhost:8080/merchant/delete/{id}(id="+id+")");
+    public String deleteMerchant(@PathVariable("id") long id, Model model) {
+        restTemplate.delete("http://localhost:8080/merchant/delete/{id}(id=" + id + ")");
         return getMerchantList(model);
     }
 }

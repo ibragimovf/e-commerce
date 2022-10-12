@@ -13,8 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/gateway")
-public class
-GatewayController {
+public class GatewayController {
 
     private final RestTemplate restTemplate;
 
@@ -23,9 +22,7 @@ GatewayController {
     }
 
     @GetMapping("/list")
-    public String getGatewayList(
-            Model model
-    ) {
+    public String getGatewayList(Model model) {
         ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/gateway/get", ApiResponse.class);
         ApiResponse apiResponse = responseEntity.getBody();
         model.addAttribute("gateway", new GatewayReceiveDto());
@@ -34,22 +31,14 @@ GatewayController {
     }
 
     @PostMapping("/add")
-    public String addGateway(
-            Model model,
-            @ModelAttribute GatewayReceiveDto gateway
-    ) {
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/gateway/add", gateway, ApiResponse.class);
+    public String addGateway(Model model, @ModelAttribute GatewayReceiveDto gateway) {
+        restTemplate.postForEntity("http://localhost:8080/gateway/add", gateway, ApiResponse.class);
         return getGatewayList(model);
     }
 
     @PutMapping("/update")
-    public String updateGateway(
-            Model model,
-            @ModelAttribute GatewayReceiveDto gateway
-    ) {
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/gateway/update", gateway, ApiResponse.class);
+    public String updateGateway(Model model, @ModelAttribute GatewayReceiveDto gateway) {
+        restTemplate.postForEntity("http://localhost:8080/gateway/update", gateway, ApiResponse.class);
         return getGatewayList(model);
     }
 

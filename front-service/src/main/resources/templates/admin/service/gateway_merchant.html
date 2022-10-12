@@ -117,10 +117,8 @@
                         </button>
                     </div>
                     <div>
-                        <form th:action="@{/admin/gateway/merchant/add}" th:object="${gatewayMerchant}"
+                        <form th:action="@{/admin/gateway/merchant/add}" th:object="${gateway_merchant}"
                               th:method="post">
-                            <!--                        position-->
-                            <!--                        salary-->
                             <div class="mb-3">
                                 <label for="exampleInputFullName1" class="form-label">Name</label>
                                 <input
@@ -129,23 +127,22 @@
                                         id="exampleInputFullName1"
                                         name="name"
                                 >
-
                             </div>
                             <select
                                     name="gatewayId"
                                     id="exampleInputPosition1"
                                     class="form-select"
                                     aria-label="Default select example">
-                                <option selected th:value="null">Select position:</option>
-
+                                <option selected th:value="null">Select gateway:</option>
                                 <option
-                                        th:each="gateway:${gatewayList}"
+                                        th:each="gateway:${gateway_list}"
                                         th:value="${gateway.id}"
                                         th:text="${gateway.name}"
                                 ></option>
 
                             </select>
                             <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -171,24 +168,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="gatewayMerchant, index :${gatewayMerchant_list}">
-                    <td><span th:text="${gatewayMerchant.id}">1</span></td>
-                    <td><span th:text="${gatewayMerchant.name}">1</span></td>
-                    <td><span th:text="${gatewayMerchant.gateway.name}">1</span></td>
+                <tr th:each="gateway_merchant, index :${gateway_merchant_list}">
+                    <td><span th:text="${gateway_merchant.id}">1</span></td>
+                    <td><span th:text="${gateway_merchant.name}">1</span></td>
+                    <td><span th:text="${gateway_merchant.gateway.name}">1</span></td>
                     <td>
-                        <a class="btn btn-warning" th:href="@{update/{id}(id=${gatewayMerchant.id})}">Edit</a>
-                        <!--                        <a   class="btn btn-danger" th:href="@{delete/{id}(id=${gatewayMerchant.id})}">Delete</a>-->
-
+                        <a class="btn btn-warning" th:href="@{update/{id}(id=${gateway_merchant.id})}">Edit</a>
                     </td>
                     <td>
-                        <!--                        <a class="btn btn-warning" th:href="@{update/{id}(id=${gatewayMerchant.id})}">Edit</a>-->
-                        <a class="btn btn-danger" th:href="@{delete/{id}(id=${gatewayMerchant.id})}">Delete</a>
+                        <a class="btn btn-danger" th:href="@{delete/{id}(id=${gateway_merchant.id})}">Delete</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-
     </main>
 </div>
 <script src="/plugins/jquery/jquery-3.5.1.min.js"></script>
