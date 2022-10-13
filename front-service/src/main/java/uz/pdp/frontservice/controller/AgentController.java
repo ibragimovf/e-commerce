@@ -25,16 +25,35 @@ public class AgentController {
     }
 
     @GetMapping("/list")
+<<<<<<< HEAD
+    public String getAgentList(
+            Model model
+    ){
+        ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
+        ApiResponse apiResponse = responseEntity.getBody();
+        model.addAttribute("agent",new AgentReceiveDto());
+        model.addAttribute("agent_list",(List<AgentResponse>)apiResponse.getT());
+=======
     public String getAgentList(Model model) {
         ResponseEntity<ApiResponse> agent_list = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
         model.addAttribute("agent", new AgentReceiveDto());
         model.addAttribute("agent_list", (List<AgentResponse>) agent_list.getBody().getT());
+>>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
         return "/admin/service/agent";
     }
 
     @PostMapping("/add")
+<<<<<<< HEAD
+    public String addAgent(
+            Model model,
+            @ModelAttribute AgentReceiveDto agent
+            ){
+        ResponseEntity<ApiResponse> responseEntity
+                = restTemplate.postForEntity("http://localhost:8080/agent/add", agent, ApiResponse.class);
+=======
     public String addAgent(Model model, @ModelAttribute AgentReceiveDto agent) {
         restTemplate.postForEntity("http://localhost:8080/agent/add", agent, ApiResponse.class);
+>>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
         return getAgentList(model);
     }
 }

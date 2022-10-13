@@ -5,8 +5,10 @@ import admin.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.restservice.model.GatewayEntity;
 import uz.pdp.restservice.service.base.BaseService;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static uz.pdp.restservice.service.base.ResponseMessage.ID_EMPTY;
@@ -22,7 +24,7 @@ public class GatewayController {
     }
 
     @PostMapping("/add")
-    public ApiResponse add(GatewayReceiveDto gatewayReceiveDto) {
+    public ApiResponse add(@Valid @RequestBody GatewayReceiveDto gatewayReceiveDto) {
         return baseService.add(gatewayReceiveDto);
     }
 
@@ -31,6 +33,20 @@ public class GatewayController {
         return baseService.getList();
     }
 
+    @GetMapping("/get/disabled")
+    public ApiResponse getDisabledList() {
+        return baseService.getDisabledList();
+    }
+
+    @PutMapping("/edit/{id}")
+    public ApiResponse edit(@PathVariable Long id,@Valid @RequestBody GatewayReceiveDto gatewayReceiveDto) {
+        return baseService.edit(id, gatewayReceiveDto);
+    }
+
+    @GetMapping("/getById/{id}")
+    public GatewayEntity getById(@PathVariable Long id){
+        return (GatewayEntity) baseService.getById(id);
+    }
     @DeleteMapping("/delete/{id}")
     public ApiResponse delete(@PathVariable Optional<Long> id) {
         if (id.isPresent())

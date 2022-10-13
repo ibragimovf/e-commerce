@@ -13,7 +13,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/gateway")
-public class GatewayController {
+public class
+GatewayController {
 
     private final RestTemplate restTemplate;
 
@@ -31,14 +32,32 @@ public class GatewayController {
     }
 
     @PostMapping("/add")
+<<<<<<< HEAD
+    public String addGateway(
+            Model model,
+            @ModelAttribute GatewayReceiveDto gateway
+    ) {
+        ResponseEntity<ApiResponse> responseEntity
+                = restTemplate.postForEntity("http://localhost:8080/gateway/add", gateway, ApiResponse.class);
+=======
     public String addGateway(Model model, @ModelAttribute GatewayReceiveDto gateway) {
         restTemplate.postForEntity("http://localhost:8080/gateway/add", gateway, ApiResponse.class);
+>>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
         return getGatewayList(model);
     }
 
     @PutMapping("/update")
+<<<<<<< HEAD
+    public String updateGateway(
+            Model model,
+            @ModelAttribute GatewayReceiveDto gateway
+    ) {
+        ResponseEntity<ApiResponse> responseEntity
+                = restTemplate.postForEntity("http://localhost:8080/gateway/update", gateway, ApiResponse.class);
+=======
     public String updateGateway(Model model, @ModelAttribute GatewayReceiveDto gateway) {
         restTemplate.postForEntity("http://localhost:8080/gateway/update", gateway, ApiResponse.class);
+>>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
         return getGatewayList(model);
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "db.agent")
 public class AgentEntity extends BaseModelEntity {
 
-    @Column
+    @Column(unique = true)
     private String secretKey;
 
     @JsonIgnore

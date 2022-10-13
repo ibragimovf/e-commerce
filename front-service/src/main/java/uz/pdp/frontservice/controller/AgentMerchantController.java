@@ -27,6 +27,26 @@ public class AgentMerchantController {
     }
 
     @GetMapping("/list")
+<<<<<<< HEAD
+    public String getAgentMerchantList(
+            Model model
+    ){
+        ResponseEntity<ApiResponse> agentMerchantList = restTemplate.getForEntity("http://localhost:8080/agentMerchant/get", ApiResponse.class);
+        ResponseEntity<ApiResponse> agentList = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
+        model.addAttribute("agentMerchant",new AgentMerchantReceiveDto());
+        model.addAttribute("agentMerchant_list",(List<AgentMerchantResponse>)agentMerchantList.getBody().getT());
+        model.addAttribute("agentList",(List<AgentResponse>)agentList.getBody().getT());
+        return "admin/service/agentMerchant";
+    }
+
+    @PostMapping("/add")
+    public String addAgentMerchant(
+            Model model,
+            @ModelAttribute AgentMerchantReceiveDto agentMerchant
+    ){
+        ResponseEntity<ApiResponse> responseEntity
+                = restTemplate.postForEntity("http://localhost:8080/agentMerchant/add", agentMerchant, ApiResponse.class);
+=======
     public String getAgentMerchantList(Model model) {
         ResponseEntity<ApiResponse> agentMerchantList = restTemplate.getForEntity("http://localhost:8080/agent/merchant/get", ApiResponse.class);
         ResponseEntity<ApiResponse> agentList = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
@@ -41,6 +61,7 @@ public class AgentMerchantController {
     @PostMapping("/add")
     public String addAgentMerchant(Model model, @ModelAttribute AgentMerchantReceiveDto agentMerchant) {
         restTemplate.postForEntity("http://localhost:8080/agent/merchant/add", agentMerchant, ApiResponse.class);
+>>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
         return getAgentMerchantList(model);
     }
 

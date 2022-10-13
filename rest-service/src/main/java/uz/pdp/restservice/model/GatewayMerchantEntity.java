@@ -15,4 +15,6 @@ public class GatewayMerchantEntity extends BaseModelEntity {
 
     @ManyToOne
     private GatewayEntity gatewayEntity;
+    @ManyToOne
+    private MerchantEntity merchantEntity;
 }
