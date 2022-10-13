@@ -12,13 +12,16 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "db.agent_merchant_entity")
-public class AgentMerchantEntity extends BaseModelEntity{
+public class AgentMerchantEntity extends BaseModelEntity {
 
     @ManyToOne
     private AgentEntity agentEntity;
 
     @ManyToOne
     private MerchantEntity merchantEntity;
+
+    @Column
+    private double commission;
 
     @Column
     private double minAmount;

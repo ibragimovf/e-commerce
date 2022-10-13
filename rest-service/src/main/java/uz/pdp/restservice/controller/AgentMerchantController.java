@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import uz.pdp.restservice.model.AgentMerchantEntity;
 import uz.pdp.restservice.service.base.BaseService;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static uz.pdp.restservice.service.base.ResponseMessage.ID_EMPTY;
@@ -23,7 +25,7 @@ public class AgentMerchantController {
     }
 
     @PostMapping("/add")
-    public ApiResponse add(@RequestBody AgentMerchantReceiveDto agentMerchantReceiveDto) {
+    public ApiResponse add(@Valid @RequestBody AgentMerchantReceiveDto agentMerchantReceiveDto) {
         return baseService.add(agentMerchantReceiveDto);
     }
 
@@ -31,6 +33,22 @@ public class AgentMerchantController {
     public ApiResponse getList() {
         return baseService.getList();
     }
+
+    @GetMapping("/get/disabled")
+    public ApiResponse getDisabledList() {
+        return baseService.getDisabledList();
+    }
+
+    @PutMapping("/edit/{id}")
+    public ApiResponse edit(@PathVariable Long id,@Valid @RequestBody AgentMerchantReceiveDto agentMerchantReceiveDto) {
+        return baseService.edit(id, agentMerchantReceiveDto);
+    }
+
+    @GetMapping("/getById/{id}")
+    public AgentMerchantEntity getById(@PathVariable Long id){
+        return (AgentMerchantEntity) baseService.getById(id);
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public ApiResponse delete(@PathVariable Optional<Long> id) {
