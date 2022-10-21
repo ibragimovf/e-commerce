@@ -2,9 +2,6 @@ package uz.pdp.restservice.service;
 
 import admin.receive.AgentMerchantReceiveDto;
 import admin.response.ApiResponse;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.restservice.model.AgentEntity;
 import uz.pdp.restservice.model.AgentMerchantEntity;
@@ -14,7 +11,6 @@ import uz.pdp.restservice.repository.AgentRepository;
 import uz.pdp.restservice.repository.MerchantRepository;
 import uz.pdp.restservice.service.base.BaseService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,17 +42,10 @@ public class AgentMerchantService implements BaseService<AgentMerchantReceiveDto
     }
 
     @Override
-    public ApiResponse<List<AgentMerchantEntity>> getList(int page) {
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
-        return new ApiResponse<>(0, SUCCESS, agentMerchantRepository.findAll(pageable).stream().toList());
-    }
-
-    @Override
     public ApiResponse<List<AgentMerchantEntity>> getList(int page, AgentMerchantReceiveDto dto) {
         String name = "%" + (dto.getName() != null ? dto.getName() : "") + "%";
         String minSum = "%" + (dto.getMinSum() != null ? dto.getMinSum().toString().substring(0, dto.getMinSum().toString().indexOf(".")) : "") + "%";
         String maxSum = "%" + (dto.getMaxSum() != null ? dto.getMaxSum().toString().substring(0, dto.getMaxSum().toString().indexOf(".")) : "") + "%";
-
         List<AgentMerchantEntity> findAll = agentMerchantRepository.getAllSearchResult(name, minSum, maxSum, page, 11);
         System.out.println("list size = " + findAll.size());
         return new ApiResponse<>(0, SUCCESS, findAll);
@@ -91,15 +80,5 @@ public class AgentMerchantService implements BaseService<AgentMerchantReceiveDto
         agentMerchantEntity.setInActive(true);
         agentMerchantRepository.save(agentMerchantEntity);
         return new ApiResponse<>(0, SUCCESS);
-    }
-
-    @Override
-    public boolean isNotNull(AgentMerchantReceiveDto agentMerchantReceiveDto) {
-        if (agentMerchantReceiveDto.getName() != null
-                || agentMerchantReceiveDto.getMinSum() != null
-                || agentMerchantReceiveDto.getMaxSum() != null) {
-            return true;
-        }
-        return false;
     }
 }

@@ -1,6 +1,5 @@
 package uz.pdp.restservice.controller;
 
-import admin.receive.AgentReceiveDto;
 import admin.receive.GatewayMerchantReceiveDto;
 import admin.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,10 +27,7 @@ public class GatewayMerchantController {
     }
 
     @PostMapping("/list/{page}")
-    public ApiResponse getList(
-            @PathVariable int page,
-            @RequestBody GatewayMerchantReceiveDto gatewayMerchantReceiveDto
-    ) {
+    public ApiResponse getList(@PathVariable int page, @RequestBody GatewayMerchantReceiveDto gatewayMerchantReceiveDto) {
         return baseService.getList(page, gatewayMerchantReceiveDto);
     }
 

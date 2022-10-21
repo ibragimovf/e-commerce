@@ -27,12 +27,7 @@ public class GatewayController {
     }
 
     @PostMapping("/list/{page}")
-    public ApiResponse getList(
-            @PathVariable int page,
-            @RequestBody GatewayReceiveDto gatewayReceiveDto) {
-//        if (baseService.isNotNull(gatewayReceiveDto)) {
-//            baseService.getList(page, gatewayReceiveDto);
-//        }
+    public ApiResponse getList(@PathVariable int page, @RequestBody GatewayReceiveDto gatewayReceiveDto) {
         return baseService.getList(page, gatewayReceiveDto);
     }
 

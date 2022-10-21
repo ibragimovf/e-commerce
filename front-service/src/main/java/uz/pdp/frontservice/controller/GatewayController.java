@@ -25,8 +25,7 @@ public class GatewayController {
 
     @GetMapping("/list/{pageSize}")
     public String getGatewayList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute GatewayReceiveDto gateway) {
-        List<GatewayResponse> gatewayList = (List<GatewayResponse>) restTemplate.postForEntity(
-                "http://localhost:8080/gateway/list/" + getPage(pageSize) + "", gateway, ApiResponse.class).getBody().getT();
+        List<GatewayResponse> gatewayList = (List<GatewayResponse>) restTemplate.postForEntity("http://localhost:8080/gateway/list/" + getPage(pageSize) + "", gateway, ApiResponse.class).getBody().getT();
         model.addAttribute("gateway", new GatewayReceiveDto());
         model.addAttribute("gatewayList", gatewayList);
         model.addAttribute("page", getPage(pageSize));
@@ -36,8 +35,7 @@ public class GatewayController {
 
     @GetMapping("/get/{id}")
     public String getGateway(Model model, @PathVariable long id) {
-        GatewayResponse gateway = (GatewayResponse) restTemplate.getForEntity(
-                "http://localhost:8080/gateway/get/" + id + "", ApiResponse.class).getBody().getT();
+        GatewayResponse gateway = (GatewayResponse) restTemplate.getForEntity("http://localhost:8080/gateway/get/" + id + "", ApiResponse.class).getBody().getT();
         model.addAttribute("gateway", gateway);
         return "admin/service/gateway/edit";
     }

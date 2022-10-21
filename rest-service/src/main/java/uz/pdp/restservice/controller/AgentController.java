@@ -31,13 +31,7 @@ public class AgentController {
     }
 
     @PostMapping("/list/{page}")
-    public ApiResponse getList(
-            @PathVariable int page,
-            @RequestBody AgentReceiveDto agentReceiveDto
-    ) {
-//        if (baseService.isNotNull(agentReceiveDto)) {
-//            return agentService.getList(page, agentReceiveDto);
-//        }
+    public ApiResponse getList(@PathVariable int page, @RequestBody AgentReceiveDto agentReceiveDto) {
         return baseService.getList(page, agentReceiveDto);
     }
 

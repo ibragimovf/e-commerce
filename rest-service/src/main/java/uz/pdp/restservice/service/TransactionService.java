@@ -36,8 +36,6 @@ public class TransactionService {
 //    }
 
     public List<TransactionResponseDto> getList(int page) {
-//        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
-//        return transactionRepository.findAll(pageable).stream().map((transaction) -> new TransactionResponseDto(
         return transactionRepository.getAllResult(page, 11).stream().map((transaction) -> new TransactionResponseDto(
                 transaction.getId(),
                 transaction.getMerchantEntity().getName(),

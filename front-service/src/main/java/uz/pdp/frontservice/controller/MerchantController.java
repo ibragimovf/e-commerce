@@ -26,10 +26,8 @@ public class MerchantController {
 
     @GetMapping("/list/{pageSize}")
     public String getMerchantList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute MerchantReceiveDto merchant) {
-        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.postForEntity(
-                "http://localhost:8080/merchant/list/" + getPage(pageSize) + "", merchant, ApiResponse.class).getBody().getT();
-        List<GatewayMerchantResponse> gatewayMerchantList = (List<GatewayMerchantResponse>) restTemplate.getForEntity(
-                "http://localhost:8080/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
+        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.postForEntity("http://localhost:8080/merchant/list/" + getPage(pageSize) + "", merchant, ApiResponse.class).getBody().getT();
+        List<GatewayMerchantResponse> gatewayMerchantList = (List<GatewayMerchantResponse>) restTemplate.getForEntity("http://localhost:8080/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
         model.addAttribute("merchant", new MerchantReceiveDto());
         model.addAttribute("merchantList", merchantList);
         model.addAttribute("gatewayMerchantList", gatewayMerchantList);

@@ -26,8 +26,7 @@ public class AgentController {
     @GetMapping("/list/{pageSize}")
     public String getAgentList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute AgentReceiveDto searchAgent) {
         System.out.println("searchAgent.getName() = " + searchAgent.getName());
-        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.postForEntity(
-                "http://localhost:8080/agent/list/" + getPage(pageSize) + "", searchAgent, ApiResponse.class).getBody().getT();
+        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.postForEntity("http://localhost:8080/agent/list/" + getPage(pageSize) + "", searchAgent, ApiResponse.class).getBody().getT();
         model.addAttribute("agent", new AgentReceiveDto());
         model.addAttribute("agentList", agentList);
         model.addAttribute("page", getPage(pageSize));
@@ -37,8 +36,7 @@ public class AgentController {
 
     @GetMapping("/get/{id}")
     public String getAgent(Model model, @PathVariable long id) {
-        AgentResponse agent = (AgentResponse) restTemplate.getForEntity(
-                "http://localhost:8080/agent/get/" + id + "", ApiResponse.class).getBody().getT();
+        AgentResponse agent = (AgentResponse) restTemplate.getForEntity("http://localhost:8080/agent/get/" + id + "", ApiResponse.class).getBody().getT();
         model.addAttribute("agent", agent);
         return "admin/service/agent/edit";
     }

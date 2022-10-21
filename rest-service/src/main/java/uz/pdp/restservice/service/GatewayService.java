@@ -2,9 +2,6 @@ package uz.pdp.restservice.service;
 
 import admin.receive.GatewayReceiveDto;
 import admin.response.ApiResponse;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.restservice.model.GatewayEntity;
 import uz.pdp.restservice.repository.GatewayRepository;
@@ -30,16 +27,8 @@ public class GatewayService implements BaseService<GatewayReceiveDto, List<Gatew
     }
 
     @Override
-    public ApiResponse<List<GatewayEntity>> getList(int page) {
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
-        return new ApiResponse<>(0, SUCCESS, gatewayRepository.findAll(pageable).stream().toList());
-    }
-
-    @Override
     public ApiResponse<List<GatewayEntity>> getList(int page, GatewayReceiveDto dto) {
         String name = "%" + (dto.getName() != null ? dto.getName() : "") + "%";
-//        Pageable pageable = PageRequest.of(page - 1, 10);
-//        List<GatewayEntity> findAll = gatewayRepository.findAllByNameLikeIgnoreCase(name, pageable);
         List<GatewayEntity> findAll = gatewayRepository.getAllSearchResult(name, page, 11);
         System.out.println("list = " + findAll);
         return new ApiResponse<>(0, SUCCESS, findAll);
@@ -70,13 +59,5 @@ public class GatewayService implements BaseService<GatewayReceiveDto, List<Gatew
         gatewayEntity.setInActive(true);
         gatewayRepository.save(gatewayEntity);
         return new ApiResponse<>(0, SUCCESS);
-    }
-
-    @Override
-    public boolean isNotNull(GatewayReceiveDto gatewayReceiveDto) {
-        if (gatewayReceiveDto.getName() != null) {
-            return true;
-        }
-        return false;
     }
 }

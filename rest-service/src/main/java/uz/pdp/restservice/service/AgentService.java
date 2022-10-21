@@ -30,16 +30,8 @@ public class AgentService implements BaseService<AgentReceiveDto, List<AgentEnti
     }
 
     @Override
-    public ApiResponse<List<AgentEntity>> getList(int page) {
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
-        return new ApiResponse<>(0, SUCCESS, agentRepository.findAll(pageable).stream().toList());
-    }
-
-    @Override
     public ApiResponse<List<AgentEntity>> getList(int page, AgentReceiveDto dto) {
         String name = "%" + (dto.getName() != null ? dto.getName() : "") + "%";
-//        Pageable pageable = PageRequest.of(page - 1, 10);
-//        List<AgentEntity> findAll = agentRepository.findByNameLikeIgnoreCase(name, pageable);
         List<AgentEntity> findAll = agentRepository.getAllSearchResult(name, page, 11);
         System.out.println("list size = " + findAll.size());
         return new ApiResponse<>(0, SUCCESS, findAll);
@@ -71,13 +63,5 @@ public class AgentService implements BaseService<AgentReceiveDto, List<AgentEnti
         agentEntity.setInActive(true);
         agentRepository.save(agentEntity);
         return new ApiResponse<>(0, SUCCESS);
-    }
-
-    @Override
-    public boolean isNotNull(AgentReceiveDto dto) {
-        if (dto.getName() != null) {
-            return true;
-        }
-        return false;
     }
 }

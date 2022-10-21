@@ -26,17 +26,10 @@ public class AgentMerchantController {
     }
 
     @GetMapping("/list/{pageSize}")
-    public String getAgentMerchantList(
-            Model model,
-            @PathVariable Optional<Integer> pageSize,
-            @ModelAttribute AgentMerchantReceiveDto searchAgentMerchant
-    ) {
-        List<AgentMerchantResponse> agentMerchantList = (List<AgentMerchantResponse>) restTemplate.postForEntity(
-                "http://localhost:8080/agent/merchant/list/" + getPage(pageSize) + "", searchAgentMerchant, ApiResponse.class).getBody().getT();
-        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity(
-                "http://localhost:8080/agent/list/all", ApiResponse.class).getBody().getT();
-        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity(
-                "http://localhost:8080/merchant/list/all", ApiResponse.class).getBody().getT();
+    public String getAgentMerchantList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute AgentMerchantReceiveDto searchAgentMerchant) {
+        List<AgentMerchantResponse> agentMerchantList = (List<AgentMerchantResponse>) restTemplate.postForEntity("http://localhost:8080/agent/merchant/list/" + getPage(pageSize) + "", searchAgentMerchant, ApiResponse.class).getBody().getT();
+        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity("http://localhost:8080/agent/list/all", ApiResponse.class).getBody().getT();
+        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity("http://localhost:8080/merchant/list/all", ApiResponse.class).getBody().getT();
         model.addAttribute("agentMerchant", new AgentMerchantReceiveDto());
         model.addAttribute("agentMerchantList", agentMerchantList);
         model.addAttribute("agentList", agentList);
@@ -48,12 +41,9 @@ public class AgentMerchantController {
 
     @GetMapping("/get/{id}")
     public String getAgentMerchant(Model model, @PathVariable long id) {
-        AgentMerchantResponse agentMerchant = (AgentMerchantResponse) restTemplate.getForEntity(
-                "http://localhost:8080/agent/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
-        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity(
-                "http://localhost:8080/agent/list/all", ApiResponse.class).getBody().getT();
-        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity(
-                "http://localhost:8080/merchant/list/all", ApiResponse.class);
+        AgentMerchantResponse agentMerchant = (AgentMerchantResponse) restTemplate.getForEntity("http://localhost:8080/agent/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
+        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity("http://localhost:8080/agent/list/all", ApiResponse.class).getBody().getT();
+        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity("http://localhost:8080/merchant/list/all", ApiResponse.class);
         model.addAttribute("agentMerchant", agentMerchant);
         model.addAttribute("agentList", agentList);
         model.addAttribute("merchantList", merchantList);

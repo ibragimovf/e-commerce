@@ -2,9 +2,6 @@ package uz.pdp.restservice.service;
 
 import admin.receive.MerchantReceiveDto;
 import admin.response.ApiResponse;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.restservice.model.MerchantEntity;
 import uz.pdp.restservice.repository.GatewayMerchantRepository;
@@ -33,16 +30,8 @@ public class MerchantService implements BaseService<MerchantReceiveDto, List<Mer
     }
 
     @Override
-    public ApiResponse<List<MerchantEntity>> getList(int page) {
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
-        return new ApiResponse<>(0, SUCCESS, merchantRepository.findAll(pageable).stream().toList());
-    }
-
-    @Override
     public ApiResponse<List<MerchantEntity>> getList(int page, MerchantReceiveDto dto) {
         String name = "%" + (dto.getName() != null ? dto.getName() : "") + "%";
-//        Pageable pageable = PageRequest.of(page - 1, 10);
-//        List<MerchantEntity> findAll = merchantRepository.findAllByNameLikeIgnoreCase(name, pageable);
         List<MerchantEntity> findAll = merchantRepository.getAllSearchResult(name, page, 11);
         System.out.println("list size = " + findAll.size());
         return new ApiResponse<>(0, SUCCESS, findAll);
@@ -69,13 +58,5 @@ public class MerchantService implements BaseService<MerchantReceiveDto, List<Mer
         merchantEntity.setInActive(true);
         merchantRepository.save(merchantEntity);
         return new ApiResponse<>(0, SUCCESS);
-    }
-
-    @Override
-    public boolean isNotNull(MerchantReceiveDto merchantReceiveDto) {
-        if (merchantReceiveDto.getName() != null || merchantReceiveDto.getGatewayMerchantId() != null) {
-            return true;
-        }
-        return false;
     }
 }

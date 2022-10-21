@@ -28,10 +28,7 @@ public class MerchantController {
 
     @PostMapping("/list/{page}")
     public ApiResponse getList(@PathVariable int page, @RequestBody MerchantReceiveDto merchantReceiveDto) {
-        if (baseService.isNotNull(merchantReceiveDto)) {
-            return baseService.getList(page, merchantReceiveDto);
-        }
-        return baseService.getList(page);
+        return baseService.getList(page, merchantReceiveDto);
     }
 
     @GetMapping("/list/all")

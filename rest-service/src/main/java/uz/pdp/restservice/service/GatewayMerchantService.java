@@ -2,9 +2,6 @@ package uz.pdp.restservice.service;
 
 import admin.receive.GatewayMerchantReceiveDto;
 import admin.response.ApiResponse;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.restservice.model.GatewayEntity;
 import uz.pdp.restservice.model.GatewayMerchantEntity;
@@ -39,17 +36,9 @@ public class GatewayMerchantService implements BaseService<GatewayMerchantReceiv
     }
 
     @Override
-    public ApiResponse<List<GatewayMerchantEntity>> getList(int page) {
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
-        return new ApiResponse<>(0, SUCCESS, gatewayMerchantRepository.findAll(pageable).stream().toList());
-    }
-
-    @Override
     public ApiResponse<List<GatewayMerchantEntity>> getList(int page, GatewayMerchantReceiveDto dto) {
         String name = "%" + (dto.getName() != null ? dto.getName() : "") + "%";
         System.out.println("name = " + name);
-//        Pageable pageable = PageRequest.of(page - 1, 10);
-//        List<GatewayMerchantEntity> findAll = gatewayMerchantRepository.findAllByNameLikeIgnoreCase(name, pageable);
         List<GatewayMerchantEntity> findAll = gatewayMerchantRepository.getAllSearchResult(name, page, 11);
         System.out.println("list size = " + findAll.size());
         return new ApiResponse<>(0, SUCCESS, findAll);
@@ -82,14 +71,5 @@ public class GatewayMerchantService implements BaseService<GatewayMerchantReceiv
         gatewayMerchantEntity.setInActive(true);
         gatewayMerchantRepository.save(gatewayMerchantEntity);
         return new ApiResponse<>(0, SUCCESS);
-    }
-
-    @Override
-    public boolean isNotNull(GatewayMerchantReceiveDto gatewayMerchantReceiveDto) {
-        if (gatewayMerchantReceiveDto.getGatewayId() != null
-                || gatewayMerchantReceiveDto.getName() != null) {
-            return true;
-        }
-        return false;
     }
 }
