@@ -25,6 +25,9 @@ public class TransactionEntity{
     @OneToOne
     private MerchantEntity merchantEntity;
 
+    @OneToOne
+    private AgentMerchantEntity agentMerchantEntity;
+
     @Enumerated(EnumType.STRING)
     private TransactionState state;
 

@@ -3,57 +3,61 @@ package uz.pdp.frontservice.controller;
 import admin.receive.AgentReceiveDto;
 import admin.response.AgentResponse;
 import admin.response.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
+
+import static uz.pdp.frontservice.service.Service.getPage;
+import static uz.pdp.frontservice.service.Service.isEmpty;
 
 @Controller
 @RequestMapping("/admin/agent")
 public class AgentController {
-
     private final RestTemplate restTemplate;
 
     public AgentController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    @GetMapping("/list")
-<<<<<<< HEAD
-    public String getAgentList(
-            Model model
-    ){
-        ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
-        ApiResponse apiResponse = responseEntity.getBody();
-        model.addAttribute("agent",new AgentReceiveDto());
-        model.addAttribute("agent_list",(List<AgentResponse>)apiResponse.getT());
-=======
-    public String getAgentList(Model model) {
-        ResponseEntity<ApiResponse> agent_list = restTemplate.getForEntity("http://localhost:8080/agent/get", ApiResponse.class);
+    @GetMapping("/list/{pageSize}")
+    public String getAgentList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute AgentReceiveDto searchAgent) {
+        System.out.println("searchAgent.getName() = " + searchAgent.getName());
+        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.postForEntity(
+                "http://localhost:8080/agent/list/" + getPage(pageSize) + "", searchAgent, ApiResponse.class).getBody().getT();
         model.addAttribute("agent", new AgentReceiveDto());
-        model.addAttribute("agent_list", (List<AgentResponse>) agent_list.getBody().getT());
->>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
-        return "/admin/service/agent";
+        model.addAttribute("agentList", agentList);
+        model.addAttribute("page", getPage(pageSize));
+        model.addAttribute("isEmpty", isEmpty(agentList.size()));
+        return "/admin/service/agent/list";
+    }
+
+    @GetMapping("/get/{id}")
+    public String getAgent(Model model, @PathVariable long id) {
+        AgentResponse agent = (AgentResponse) restTemplate.getForEntity(
+                "http://localhost:8080/agent/get/" + id + "", ApiResponse.class).getBody().getT();
+        model.addAttribute("agent", agent);
+        return "admin/service/agent/edit";
     }
 
     @PostMapping("/add")
-<<<<<<< HEAD
-    public String addAgent(
-            Model model,
-            @ModelAttribute AgentReceiveDto agent
-            ){
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/agent/add", agent, ApiResponse.class);
-=======
-    public String addAgent(Model model, @ModelAttribute AgentReceiveDto agent) {
+    public String addAgent(@ModelAttribute AgentReceiveDto agent) {
         restTemplate.postForEntity("http://localhost:8080/agent/add", agent, ApiResponse.class);
->>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
-        return getAgentList(model);
+        return "redirect:/admin/agent/list/1";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editAgent(@PathVariable("id") long id, @ModelAttribute AgentReceiveDto agent) {
+        restTemplate.postForEntity("http://localhost:8080/agent/edit/" + id + "", agent, ApiResponse.class);
+        return "redirect:/admin/agent/list/1";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteAgent(@PathVariable("id") long id) {
+        restTemplate.delete("http://localhost:8080/agent/delete/{id}", id);
+        return "redirect:/admin/agent/list/1";
     }
 }

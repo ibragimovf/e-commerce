@@ -3,15 +3,13 @@ package uz.pdp.restservice.controller;
 import admin.receive.GatewayReceiveDto;
 import admin.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import uz.pdp.restservice.model.GatewayEntity;
 import uz.pdp.restservice.service.base.BaseService;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 import static uz.pdp.restservice.service.base.ResponseMessage.ID_EMPTY;
+import static uz.pdp.restservice.service.base.ResponseMessage.SUCCESS;
 
 @RestController
 @RequestMapping("/gateway")
@@ -24,35 +22,38 @@ public class GatewayController {
     }
 
     @PostMapping("/add")
-    public ApiResponse add(@Valid @RequestBody GatewayReceiveDto gatewayReceiveDto) {
+    public ApiResponse add(@RequestBody GatewayReceiveDto gatewayReceiveDto) {
         return baseService.add(gatewayReceiveDto);
     }
 
-    @GetMapping("/get")
-    public ApiResponse getList() {
-        return baseService.getList();
+    @PostMapping("/list/{page}")
+    public ApiResponse getList(
+            @PathVariable int page,
+            @RequestBody GatewayReceiveDto gatewayReceiveDto) {
+//        if (baseService.isNotNull(gatewayReceiveDto)) {
+//            baseService.getList(page, gatewayReceiveDto);
+//        }
+        return baseService.getList(page, gatewayReceiveDto);
     }
 
-    @GetMapping("/get/disabled")
-    public ApiResponse getDisabledList() {
-        return baseService.getDisabledList();
+    @GetMapping("/list/all")
+    public ApiResponse getAllList() {
+        return baseService.getAllList();
     }
 
-    @PutMapping("/edit/{id}")
-    public ApiResponse edit(@PathVariable Long id,@Valid @RequestBody GatewayReceiveDto gatewayReceiveDto) {
-        return baseService.edit(id, gatewayReceiveDto);
+    @GetMapping("/get/{id}")
+    public ApiResponse get(@PathVariable long id) {
+        return new ApiResponse<>(0, SUCCESS, baseService.getById(id));
     }
 
-    @GetMapping("/getById/{id}")
-    public GatewayEntity getById(@PathVariable Long id){
-        return (GatewayEntity) baseService.getById(id);
+    @PostMapping("/edit/{id}")
+    public ApiResponse edit(@PathVariable long id, @RequestBody GatewayReceiveDto gatewayReceiveDto) {
+        return baseService.edit(gatewayReceiveDto, id);
     }
+
     @DeleteMapping("/delete/{id}")
     public ApiResponse delete(@PathVariable Optional<Long> id) {
-        if (id.isPresent())
-            return baseService.delete(id.get());
-
-        else
-            return new ApiResponse<>(1, ID_EMPTY);
+        if (id.isPresent()) return baseService.delete(id.get());
+        else return new ApiResponse<>(1, ID_EMPTY);
     }
 }

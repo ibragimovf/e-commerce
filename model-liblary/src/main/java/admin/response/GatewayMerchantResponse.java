@@ -12,7 +12,7 @@ public class GatewayMerchantResponse {
 
     private long id;
     @JsonProperty("gatewayEntity")
-    private GatewayResponse gateway;
+    private GatewayResponse gatewayEntity;
     private String name;
 
 

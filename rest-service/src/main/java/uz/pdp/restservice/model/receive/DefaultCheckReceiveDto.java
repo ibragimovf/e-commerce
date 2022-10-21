@@ -3,6 +3,7 @@ package uz.pdp.restservice.model.receive;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DefaultCheckReceiveDto implements BaseCheckReceiveDto{
+@JsonDeserialize(as = DefaultCheckReceiveDto.class)
+public class DefaultCheckReceiveDto{
 
     @JsonProperty("account")
     private String transactionAccount;
@@ -29,8 +31,4 @@ public class DefaultCheckReceiveDto implements BaseCheckReceiveDto{
         return transactionAccount != null && merchantId != 0 && amount != null;
     }
 
-    @Override
-    public DefaultCheckReceiveDto checkReceiveDto() {
-        return this;
-    }
 }

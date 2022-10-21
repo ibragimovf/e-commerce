@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,15 +14,13 @@ import java.util.List;
 @Entity
 @Table(name = "db.gateway")
 public class GatewayEntity extends BaseModelEntity {
-    @Column(unique = true)
-    private String secretKey;
 
     @JsonIgnore
     @OneToMany(mappedBy = "gatewayEntity")
     private List<GatewayMerchantEntity> gatewayMerchantEntities;
 
     public boolean isPaynet(){
-        return getId() == 10;
+        return getId() == 1;
     }
 
     public boolean isPayme(){

@@ -20,13 +20,11 @@ public class AgentMerchantEntity extends BaseModelEntity {
     @ManyToOne
     private MerchantEntity merchantEntity;
 
-    @Column
+    @Column(name = "min_sum")
+    private double minSum;
+
+    @Column(name = "max_sum")
+    private double maxSum;
     private double commission;
-
-    @Column
-    private double minAmount;
-
-    @Column
-    private double maxAmount;
 
 }

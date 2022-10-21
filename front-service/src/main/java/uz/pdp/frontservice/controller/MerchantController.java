@@ -1,87 +1,52 @@
 package uz.pdp.frontservice.controller;
 
 import admin.receive.MerchantReceiveDto;
-import admin.response.AgentResponse;
 import admin.response.ApiResponse;
 import admin.response.GatewayMerchantResponse;
 import admin.response.MerchantResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
+
+import static uz.pdp.frontservice.service.Service.getPage;
+import static uz.pdp.frontservice.service.Service.isEmpty;
 
 @Controller
 @RequestMapping("/admin/merchant")
-public class
-MerchantController {
-
+public class MerchantController {
     private final RestTemplate restTemplate;
 
     public MerchantController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    @GetMapping("/list")
-<<<<<<< HEAD
-    public String getMerchantList(
-            Model model
-    ){
-        ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/merchant/get", ApiResponse.class);
-        ApiResponse apiResponse = responseEntity.getBody();
-        model.addAttribute("merchant",new MerchantReceiveDto());
-        model.addAttribute("merchant_list",(List<AgentResponse>)apiResponse.getT());
-=======
-    public String getMerchantList(Model model) {
-        ResponseEntity<ApiResponse> merchantList = restTemplate.getForEntity("http://localhost:8080/merchant/get", ApiResponse.class);
-        ResponseEntity<ApiResponse> gatewayMerchantList = restTemplate.getForEntity("http://localhost:8080/gateway/merchant/get", ApiResponse.class);
+    @GetMapping("/list/{pageSize}")
+    public String getMerchantList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute MerchantReceiveDto merchant) {
+        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.postForEntity(
+                "http://localhost:8080/merchant/list/" + getPage(pageSize) + "", merchant, ApiResponse.class).getBody().getT();
+        List<GatewayMerchantResponse> gatewayMerchantList = (List<GatewayMerchantResponse>) restTemplate.getForEntity(
+                "http://localhost:8080/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
         model.addAttribute("merchant", new MerchantReceiveDto());
-        model.addAttribute("merchant_list", (List<MerchantResponse>) merchantList.getBody().getT());
-        model.addAttribute("gateway_merchant_list", (List<GatewayMerchantResponse>) gatewayMerchantList.getBody().getT());
->>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
-        return "admin/service/merchant";
+        model.addAttribute("merchantList", merchantList);
+        model.addAttribute("gatewayMerchantList", gatewayMerchantList);
+        model.addAttribute("page", getPage(pageSize));
+        model.addAttribute("isEmpty", isEmpty(merchantList.size()));
+        return "admin/service/merchant/list";
     }
 
     @PostMapping("/add")
-<<<<<<< HEAD
-    public String addMerchant(
-            Model model,
-            @ModelAttribute MerchantReceiveDto merchant
-            ){
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/merchant/add", merchant, ApiResponse.class);
-=======
-    public String addMerchant(Model model, @ModelAttribute MerchantReceiveDto merchant) {
+    public String addMerchant(@ModelAttribute MerchantReceiveDto merchant) {
         restTemplate.postForEntity("http://localhost:8080/merchant/add", merchant, ApiResponse.class);
->>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
-        return getMerchantList(model);
-    }
-
-    @PutMapping("/update")
-<<<<<<< HEAD
-    public String updateMerchant(
-            Model model,
-            @ModelAttribute MerchantReceiveDto merchant
-    ){
-        ResponseEntity<ApiResponse> responseEntity
-                = restTemplate.postForEntity("http://localhost:8080/merchant/update", merchant, ApiResponse.class);
-=======
-    public String updateMerchant(Model model, @ModelAttribute MerchantReceiveDto merchant) {
-        restTemplate.postForEntity("http://localhost:8080/merchant/update", merchant, ApiResponse.class);
->>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
-        return getMerchantList(model);
+        return "redirect:/admin/merchant/list/1";
     }
 
     @GetMapping("/delete/{id}")
-<<<<<<< HEAD
-    public String deleteMerchant(@PathVariable("id")long id,Model model){
-        restTemplate.delete("http://localhost:8080/merchant/delete/{id}(id="+id+")");
-=======
-    public String deleteMerchant(@PathVariable("id") long id, Model model) {
+    public String deleteMerchant(@PathVariable("id") long id) {
         restTemplate.delete("http://localhost:8080/merchant/delete/{id}(id=" + id + ")");
->>>>>>> f6b11f6437509dbd86ca146da519dc588e08ed5a
-        return getMerchantList(model);
+        return "redirect:/admin/merchant/list/1";
     }
 }

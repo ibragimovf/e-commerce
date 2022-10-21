@@ -3,6 +3,7 @@ package uz.pdp.restservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,11 +18,11 @@ import java.util.List;
 @Table(name = "db.agent")
 public class AgentEntity extends BaseModelEntity {
 
-    @Column(unique = true)
+    @Column
     private String secretKey;
 
     @JsonIgnore
-    @Column
+    @Column()
     @OneToMany(mappedBy = "agentEntity")
     private List<AgentMerchantEntity> agentMerchantEntities;
 }

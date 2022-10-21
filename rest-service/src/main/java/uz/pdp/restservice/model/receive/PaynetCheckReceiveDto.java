@@ -1,6 +1,7 @@
 package uz.pdp.restservice.model.receive;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.Getter;
@@ -12,7 +13,8 @@ import java.math.BigDecimal;
 @Setter
 @JacksonXmlRootElement(localName = "paynet")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PaynetCheckReceiveDto implements BaseCheckReceiveDto{
+@JsonDeserialize(as = PaynetCheckReceiveDto.class)
+public class PaynetCheckReceiveDto extends DefaultCheckReceiveDto{
 
     @JacksonXmlProperty(localName = "check")
     private Content content;
@@ -31,11 +33,6 @@ public class PaynetCheckReceiveDto implements BaseCheckReceiveDto{
         @JacksonXmlProperty(localName = "merchant_id")
         private long merchantId;
 
-    }
-
-    @Override
-    public DefaultCheckReceiveDto checkReceiveDto() {
-        return new DefaultCheckReceiveDto(content.account, content.amount, content.merchantId);
     }
 }
 

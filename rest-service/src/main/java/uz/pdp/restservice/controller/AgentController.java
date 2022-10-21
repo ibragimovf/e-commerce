@@ -1,19 +1,16 @@
 package uz.pdp.restservice.controller;
 
 import admin.receive.AgentReceiveDto;
-import admin.receive.GatewayReceiveDto;
 import admin.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import uz.pdp.restservice.model.AgentEntity;
-import uz.pdp.restservice.model.GatewayEntity;
+import uz.pdp.restservice.service.AgentService;
 import uz.pdp.restservice.service.base.BaseService;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 import static uz.pdp.restservice.service.base.ResponseMessage.ID_EMPTY;
+import static uz.pdp.restservice.service.base.ResponseMessage.SUCCESS;
 
 @CrossOrigin(origins = "http://localhost:80")
 @RestController
@@ -21,40 +18,47 @@ import static uz.pdp.restservice.service.base.ResponseMessage.ID_EMPTY;
 public class AgentController {
 
     private final BaseService baseService;
+    private final AgentService agentService;
 
-    public AgentController(@Qualifier("agentService") BaseService baseService) {
+    public AgentController(@Qualifier("agentService") BaseService baseService, AgentService agentService) {
         this.baseService = baseService;
+        this.agentService = agentService;
     }
 
     @PostMapping("/add")
-    public ApiResponse add(@Valid @RequestBody AgentReceiveDto agentReceiveDto) {
+    public ApiResponse add(@RequestBody AgentReceiveDto agentReceiveDto) {
         return baseService.add(agentReceiveDto);
     }
 
-    @GetMapping("/get")
-    public ApiResponse getList() {
-        return baseService.getList();
+    @PostMapping("/list/{page}")
+    public ApiResponse getList(
+            @PathVariable int page,
+            @RequestBody AgentReceiveDto agentReceiveDto
+    ) {
+//        if (baseService.isNotNull(agentReceiveDto)) {
+//            return agentService.getList(page, agentReceiveDto);
+//        }
+        return baseService.getList(page, agentReceiveDto);
     }
 
-    @GetMapping("/get/disabled")
-    public ApiResponse getDisabledList() {
-        return baseService.getDisabledList();
+    @GetMapping("/list/all")
+    public ApiResponse getAllList() {
+        return baseService.getAllList();
     }
 
-    @PutMapping("/edit/{id}")
-    public ApiResponse edit(@PathVariable Long id,@Valid @RequestBody AgentReceiveDto agentReceiveDto) {
-        return baseService.edit(id, agentReceiveDto);
+    @GetMapping("/get/{id}")
+    public ApiResponse get(@PathVariable long id) {
+        return new ApiResponse<>(0, SUCCESS, baseService.getById(id));
     }
 
-    @GetMapping("/getById/{id}")
-    public AgentEntity getById(@PathVariable Long id){
-        return (AgentEntity) baseService.getById(id);
+    @PostMapping("/edit/{id}")
+    public ApiResponse edit(@PathVariable long id, @RequestBody AgentReceiveDto agentReceiveDto) {
+        return baseService.edit(agentReceiveDto, id);
     }
 
     @DeleteMapping("/delete/{id}")
     public ApiResponse delete(@PathVariable Optional<Long> id) {
         if (id.isPresent()) return baseService.delete(id.get());
-
         else return new ApiResponse<>(1, ID_EMPTY);
     }
 }
