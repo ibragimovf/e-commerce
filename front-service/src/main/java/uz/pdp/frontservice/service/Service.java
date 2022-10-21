@@ -8,6 +8,6 @@ public class Service {
     }
 
     public static boolean isEmpty(int i) {
-        return i > 10 ? false : true;
+        return i <= 10;
     }
 }
