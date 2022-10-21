@@ -7,11 +7,11 @@ import uz.pdp.restservice.service.users.UserService;
 
 @RestController
 @RequestMapping("/test")
-public class AddSuperAdminController {
+public class TestController {
 
     private final UserService userService;
 
-    public AddSuperAdminController(UserService userService) {
+    public TestController(UserService userService) {
         this.userService = userService;
     }
 
