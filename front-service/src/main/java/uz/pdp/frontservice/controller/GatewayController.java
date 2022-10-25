@@ -33,7 +33,7 @@ public class GatewayController {
         return "admin/service/gateway/list";
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/list/get/{id}")
     public String getGateway(Model model, @PathVariable long id) {
         GatewayResponse gateway = (GatewayResponse) restTemplate.getForEntity("http://localhost:8080/gateway/get/" + id + "", ApiResponse.class).getBody().getT();
         model.addAttribute("gateway", gateway);

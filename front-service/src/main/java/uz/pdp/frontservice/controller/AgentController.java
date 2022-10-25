@@ -33,7 +33,7 @@ public class AgentController {
         return "/admin/service/agent/list";
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/list/get/{id}")
     public String getAgent(Model model, @PathVariable long id) {
         AgentResponse agent = (AgentResponse) restTemplate.getForEntity("http://localhost:8080/agent/get/" + id + "", ApiResponse.class).getBody().getT();
         model.addAttribute("agent", agent);

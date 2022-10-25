@@ -37,7 +37,7 @@ public class GatewayMerchantController {
         return "admin/service/gatewayMerchant/list";
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/list/get/{id}")
     public String getGatewayMerchant(Model model, @PathVariable long id) {
         GatewayMerchantResponse gatewayMerchant = (GatewayMerchantResponse) restTemplate.getForEntity("http://localhost:8080/gateway/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
         List<GatewayResponse> gatewayList = (List<GatewayResponse>) restTemplate.getForEntity("http://localhost:8080/gateway/list/all", ApiResponse.class).getBody().getT();
