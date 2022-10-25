@@ -45,7 +45,6 @@ public class MerchantController {
         MerchantResponse merchantResponse = objectMapper.convertValue(t, MerchantResponse.class);
         List<GatewayMerchantResponse> gatewayMerchantResponseList = (List<GatewayMerchantResponse>) restTemplate.getForEntity("http://localhost:8080/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
         model.addAttribute("merchant", merchantResponse);
-        System.out.println("gatewayMerchantResponseList = " + gatewayMerchantResponseList);
         model.addAttribute("gatewayMerchantList", gatewayMerchantResponseList);
         return "admin/service/merchant/edit";
     }
