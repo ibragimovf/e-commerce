@@ -34,7 +34,7 @@ public class LoginController {
         if (!username.equals("a") && !password.equals("a")) {
             return "redirect:/";
         }
-//        ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://localhost:8080/login", ApiResponse.class, username, password);
+//        ResponseEntity<ApiResponse> responseEntity = restTemplate.getForEntity("http://REST-SERVICE/api/login", ApiResponse.class, username, password);
 //        ApiResponse apiResponse = responseEntity.getBody();
 //        Boolean success = (Boolean) apiResponse.getT();
 //        if (!success) {

@@ -30,9 +30,9 @@ public class AgentMerchantController {
 
     @GetMapping("/list/{pageSize}")
     public String getAgentMerchantList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute AgentMerchantReceiveDto searchAgentMerchant) {
-        List<AgentMerchantResponse> agentMerchantList = (List<AgentMerchantResponse>) restTemplate.postForEntity("http://localhost:8080/agent/merchant/list/" + getPage(pageSize) + "", searchAgentMerchant, ApiResponse.class).getBody().getT();
-        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity("http://localhost:8080/agent/list/all", ApiResponse.class).getBody().getT();
-        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity("http://localhost:8080/merchant/list/all", ApiResponse.class).getBody().getT();
+        List<AgentMerchantResponse> agentMerchantList = (List<AgentMerchantResponse>) restTemplate.postForEntity("http://localhost:8080/api/agent/merchant/list/" + getPage(pageSize) + "", searchAgentMerchant, ApiResponse.class).getBody().getT();
+        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity("http://localhost:8080/api/agent/list/all", ApiResponse.class).getBody().getT();
+        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity("http://localhost:8080/api/merchant/list/all", ApiResponse.class).getBody().getT();
         model.addAttribute("agentMerchant", new AgentMerchantReceiveDto());
         model.addAttribute("agentMerchantList", agentMerchantList);
         model.addAttribute("agentList", agentList);
@@ -44,10 +44,10 @@ public class AgentMerchantController {
 
     @GetMapping("/list/get/{id}")
     public String getAgentMerchant(Model model, @PathVariable long id) {
-        Object t = restTemplate.getForEntity("http://localhost:8080/agent/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
+        Object t = restTemplate.getForEntity("http://localhost:8080/api/agent/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
         AgentMerchantResponse agentMerchantResponse = objectMapper.convertValue(t, AgentMerchantResponse.class);
-        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity("http://localhost:8080/agent/list/all", ApiResponse.class).getBody().getT();
-        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity("http://localhost:8080/merchant/list/all", ApiResponse.class);
+        List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity("http://localhost:8080/api/agent/list/all", ApiResponse.class).getBody().getT();
+        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity("http://localhost:8080/api/merchant/list/all", ApiResponse.class);
         model.addAttribute("agentMerchant", agentMerchantResponse);
         model.addAttribute("agentList", agentList);
         model.addAttribute("merchantList", merchantList);
@@ -56,19 +56,19 @@ public class AgentMerchantController {
 
     @PostMapping("/add")
     public String addAgentMerchant(@ModelAttribute AgentMerchantReceiveDto agentMerchant) {
-        restTemplate.postForEntity("http://localhost:8080/agent/merchant/add", agentMerchant, ApiResponse.class);
+        restTemplate.postForEntity("http://localhost:8080/api/agent/merchant/add", agentMerchant, ApiResponse.class);
         return "redirect:/admin/agent/merchant/list/1";
     }
 
     @PostMapping("/edit/{id}")
     public String editAgent(@PathVariable("id") long id, @ModelAttribute AgentMerchantReceiveDto agent) {
-        restTemplate.postForEntity("http://localhost:8080/agent/merchant/edit/" + id + "", agent, ApiResponse.class);
+        restTemplate.postForEntity("http://localhost:8080/api/agent/merchant/edit/" + id + "", agent, ApiResponse.class);
         return "redirect:/admin/agent/merchant/list/1";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteAgent(@PathVariable("id") long id) {
-        restTemplate.delete("http://localhost:8080/agent/merchant/delete/{id}", id);
+        restTemplate.delete("http://localhost:8080/api/agent/merchant/delete/{id}", id);
         return "redirect:/admin/agent/merchant/list/1";
     }
 }

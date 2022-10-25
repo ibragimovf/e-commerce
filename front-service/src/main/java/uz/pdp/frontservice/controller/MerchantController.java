@@ -29,8 +29,8 @@ public class MerchantController {
 
     @GetMapping("/list/{pageSize}")
     public String getMerchantList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute MerchantReceiveDto merchant) {
-        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.postForEntity("http://localhost:8080/merchant/list/" + getPage(pageSize) + "", merchant, ApiResponse.class).getBody().getT();
-        List<GatewayMerchantResponse> gatewayMerchantList = (List<GatewayMerchantResponse>) restTemplate.getForEntity("http://localhost:8080/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
+        List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.postForEntity("http://localhost:8080/api/merchant/list/" + getPage(pageSize) + "", merchant, ApiResponse.class).getBody().getT();
+        List<GatewayMerchantResponse> gatewayMerchantList = (List<GatewayMerchantResponse>) restTemplate.getForEntity("http://localhost:8080/api/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
         model.addAttribute("merchant", new MerchantReceiveDto());
         model.addAttribute("merchantList", merchantList);
         model.addAttribute("gatewayMerchantList", gatewayMerchantList);
@@ -41,9 +41,9 @@ public class MerchantController {
 
     @GetMapping("/list/get/{id}")
     public String getMerchant(Model model, @PathVariable long id) {
-        Object t = restTemplate.getForEntity("http://localhost:8080/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
+        Object t = restTemplate.getForEntity("http://localhost:8080/api/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
         MerchantResponse merchantResponse = objectMapper.convertValue(t, MerchantResponse.class);
-        List<GatewayMerchantResponse> gatewayMerchantResponseList = (List<GatewayMerchantResponse>) restTemplate.getForEntity("http://localhost:8080/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
+        List<GatewayMerchantResponse> gatewayMerchantResponseList = (List<GatewayMerchantResponse>) restTemplate.getForEntity("http://localhost:8080/api/gateway/merchant/list/all", ApiResponse.class).getBody().getT();
         model.addAttribute("merchant", merchantResponse);
         model.addAttribute("gatewayMerchantList", gatewayMerchantResponseList);
         return "admin/service/merchant/edit";
@@ -51,13 +51,13 @@ public class MerchantController {
 
     @PostMapping("/add")
     public String addMerchant(@ModelAttribute MerchantReceiveDto merchant) {
-        restTemplate.postForEntity("http://localhost:8080/merchant/add", merchant, ApiResponse.class);
+        restTemplate.postForEntity("http://localhost:8080/api/merchant/add", merchant, ApiResponse.class);
         return "redirect:/admin/merchant/list/1";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteMerchant(@PathVariable("id") long id) {
-        restTemplate.delete("http://localhost:8080/merchant/delete/{id}(id=" + id + ")");
+        restTemplate.delete("http://localhost:8080/api/merchant/delete/{id}(id=" + id + ")");
         return "redirect:/admin/merchant/list/1";
     }
 }

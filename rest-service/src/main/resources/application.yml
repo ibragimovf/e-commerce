@@ -1,6 +1,6 @@
 spring:
   application:
-    name: REST_SERVICE
+    name: REST-SERVICE
   datasource:
     url: jdbc:postgresql://localhost:5432/e_commerce
     password: epsont50
@@ -8,6 +8,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
 eureka:
   client:
     serviceUrl:

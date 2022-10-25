@@ -12,7 +12,7 @@ import static uz.pdp.restservice.service.base.ResponseMessage.ID_EMPTY;
 import static uz.pdp.restservice.service.base.ResponseMessage.SUCCESS;
 
 @RestController
-@RequestMapping("/merchant")
+@RequestMapping("/api/merchant")
 public class MerchantController {
 
     private final BaseService baseService;

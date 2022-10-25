@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.restservice.service.users.UserService;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/api/test")
 public class TestController {
 
     private final UserService userService;
