@@ -38,8 +38,9 @@ public class AgentController {
 
     @GetMapping("/list/get/{id}")
     public String getAgent(Model model, @PathVariable long id) {
-        AgentResponse agent = (AgentResponse) restTemplate.getForEntity("http://localhost:8080/agent/get/" + id + "", ApiResponse.class).getBody().getT();
-        model.addAttribute("agent", agent);
+        Object t = restTemplate.getForEntity("http://localhost:8080/agent/get/" + id + "", ApiResponse.class).getBody().getT();
+        AgentResponse agentResponse = objectMapper.convertValue(t, AgentResponse.class);
+        model.addAttribute("agent", agentResponse);
         return "admin/service/agent/edit";
     }
 

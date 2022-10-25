@@ -40,7 +40,7 @@ public class AgentController {
         return baseService.getAllList();
     }
 
-    @GetMapping("/list/get/{id}")
+    @GetMapping("/get/{id}")
     public ApiResponse get(@PathVariable long id) {
         return new ApiResponse<>(0, SUCCESS, baseService.getById(id));
     }

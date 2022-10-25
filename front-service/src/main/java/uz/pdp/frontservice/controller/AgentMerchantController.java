@@ -42,7 +42,7 @@ public class AgentMerchantController {
         return "admin/service/agentMerchant/list";
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/list/get/{id}")
     public String getAgentMerchant(Model model, @PathVariable long id) {
         Object t = restTemplate.getForEntity("http://localhost:8080/agent/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
         AgentMerchantResponse agentMerchantResponse = objectMapper.convertValue(t, AgentMerchantResponse.class);

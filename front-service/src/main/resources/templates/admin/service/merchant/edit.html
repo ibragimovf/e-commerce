@@ -117,17 +117,17 @@
                 </div>
                 <div>
                     <select
-                            name="gatewayId"
+                            name="gatewayMerchantId"
                             id="exampleInputPosition1"
                             class="form-select"
                             aria-label="Default select example">
-                        <option selected th:value="${gatewayMerchantList.id}">
-                            <th:block th:text="${gatewayMerchantList.name}"></th:block>
+                        <option selected th:value="${merchant.gatewayMerchantEntity.id}">
+                            <th:block th:text="${merchant.gatewayMerchantEntity.name}"></th:block>
                         </option>
                         <option
-                                th:each="gatewayMerchant:${gatewayMerchantList}"
-                                th:value="${gatewayMerchant.id}"
-                                th:text="${gatewayMerchant.name}"
+                                th:each="gatewayMerchant2:${gatewayMerchantList}"
+                                th:value="${gatewayMerchant2.id}"
+                                th:text="${gatewayMerchant2.name}"
                         ></option>
                     </select>
                 </div>

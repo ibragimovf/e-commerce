@@ -44,7 +44,7 @@ public class MerchantService implements BaseService<MerchantReceiveDto, List<Mer
 
     @Override
     public MerchantEntity getById(long id) {
-        return merchantRepository.getReferenceById(id);
+        return merchantRepository.findById(id).get();
     }
 
     @Override
