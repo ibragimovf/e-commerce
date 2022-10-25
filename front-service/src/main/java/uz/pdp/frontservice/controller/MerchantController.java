@@ -4,6 +4,7 @@ import admin.receive.MerchantReceiveDto;
 import admin.response.ApiResponse;
 import admin.response.GatewayMerchantResponse;
 import admin.response.MerchantResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,11 @@ import static uz.pdp.frontservice.service.Service.isEmpty;
 @RequestMapping("/admin/merchant")
 public class MerchantController {
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    public MerchantController(RestTemplate restTemplate) {
+    public MerchantController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/list/{pageSize}")

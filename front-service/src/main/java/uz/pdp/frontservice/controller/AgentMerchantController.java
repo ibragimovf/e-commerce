@@ -5,6 +5,7 @@ import admin.response.AgentMerchantResponse;
 import admin.response.AgentResponse;
 import admin.response.ApiResponse;
 import admin.response.MerchantResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,11 @@ import static uz.pdp.frontservice.service.Service.isEmpty;
 @RequestMapping("/admin/agent/merchant")
 public class AgentMerchantController {
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    public AgentMerchantController(RestTemplate restTemplate) {
+    public AgentMerchantController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/list/{pageSize}")
@@ -41,10 +44,11 @@ public class AgentMerchantController {
 
     @GetMapping("/get/{id}")
     public String getAgentMerchant(Model model, @PathVariable long id) {
-        AgentMerchantResponse agentMerchant = (AgentMerchantResponse) restTemplate.getForEntity("http://localhost:8080/agent/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
+        Object t = restTemplate.getForEntity("http://localhost:8080/agent/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
+        AgentMerchantResponse agentMerchantResponse = objectMapper.convertValue(t, AgentMerchantResponse.class);
         List<AgentResponse> agentList = (List<AgentResponse>) restTemplate.getForEntity("http://localhost:8080/agent/list/all", ApiResponse.class).getBody().getT();
         List<MerchantResponse> merchantList = (List<MerchantResponse>) restTemplate.getForEntity("http://localhost:8080/merchant/list/all", ApiResponse.class);
-        model.addAttribute("agentMerchant", agentMerchant);
+        model.addAttribute("agentMerchant", agentMerchantResponse);
         model.addAttribute("agentList", agentList);
         model.addAttribute("merchantList", merchantList);
         return "admin/service/agentMerchant/edit";

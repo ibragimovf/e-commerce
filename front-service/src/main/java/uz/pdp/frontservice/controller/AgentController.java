@@ -3,6 +3,7 @@ package uz.pdp.frontservice.controller;
 import admin.receive.AgentReceiveDto;
 import admin.response.AgentResponse;
 import admin.response.ApiResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,11 @@ import static uz.pdp.frontservice.service.Service.isEmpty;
 @RequestMapping("/admin/agent")
 public class AgentController {
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    public AgentController(RestTemplate restTemplate) {
+    public AgentController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/list/{pageSize}")

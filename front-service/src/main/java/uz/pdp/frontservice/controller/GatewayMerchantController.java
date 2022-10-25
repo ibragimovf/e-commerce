@@ -4,6 +4,7 @@ import admin.receive.GatewayMerchantReceiveDto;
 import admin.response.ApiResponse;
 import admin.response.GatewayMerchantResponse;
 import admin.response.GatewayResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,11 @@ import static uz.pdp.frontservice.service.Service.isEmpty;
 public class GatewayMerchantController {
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    public GatewayMerchantController(RestTemplate restTemplate) {
+    public GatewayMerchantController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/list/{pageSize}")
@@ -39,9 +42,10 @@ public class GatewayMerchantController {
 
     @GetMapping("/list/get/{id}")
     public String getGatewayMerchant(Model model, @PathVariable long id) {
-        GatewayMerchantResponse gatewayMerchant = (GatewayMerchantResponse) restTemplate.getForEntity("http://localhost:8080/gateway/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
+        Object t = restTemplate.getForEntity("http://localhost:8080/gateway/merchant/get/" + id + "", ApiResponse.class).getBody().getT();
+        GatewayMerchantResponse gatewayMerchantResponse = objectMapper.convertValue(t, GatewayMerchantResponse.class);
         List<GatewayResponse> gatewayList = (List<GatewayResponse>) restTemplate.getForEntity("http://localhost:8080/gateway/list/all", ApiResponse.class).getBody().getT();
-        model.addAttribute("gatewayMerchant", gatewayMerchant);
+        model.addAttribute("gatewayMerchant", gatewayMerchantResponse);
         model.addAttribute("gatewayList", gatewayList);
         return "admin/service/gatewayMerchant/edit";
     }

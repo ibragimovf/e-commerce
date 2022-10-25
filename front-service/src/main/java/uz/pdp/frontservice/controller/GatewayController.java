@@ -3,6 +3,7 @@ package uz.pdp.frontservice.controller;
 import admin.receive.GatewayReceiveDto;
 import admin.response.ApiResponse;
 import admin.response.GatewayResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,11 @@ import static uz.pdp.frontservice.service.Service.isEmpty;
 @RequestMapping("/admin/gateway")
 public class GatewayController {
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    public GatewayController(RestTemplate restTemplate) {
+    public GatewayController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/list/{pageSize}")
@@ -35,8 +38,9 @@ public class GatewayController {
 
     @GetMapping("/list/get/{id}")
     public String getGateway(Model model, @PathVariable long id) {
-        GatewayResponse gateway = (GatewayResponse) restTemplate.getForEntity("http://localhost:8080/gateway/get/" + id + "", ApiResponse.class).getBody().getT();
-        model.addAttribute("gateway", gateway);
+        Object t = restTemplate.getForEntity("http://localhost:8080/gateway/get/" + id + "", ApiResponse.class).getBody().getT();
+        GatewayResponse gatewayResponse = objectMapper.convertValue(t, GatewayResponse.class);
+        model.addAttribute("gateway", gatewayResponse);
         return "admin/service/gateway/edit";
     }
 
