@@ -255,7 +255,7 @@
         <nav style="position: absolute; bottom: 8px;left: 50%; transform: translate(-50%, -50%);"
              aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <li th:if="${page - 1 > 0}" class="page-item">'
+                <li th:if="${page - 1 > 0}" class="page-item">
                     <a class="page-link"
                        th:href="@{'/admin/gateway/list/' + ${page - 1}}">Previous</a>
                 </li>

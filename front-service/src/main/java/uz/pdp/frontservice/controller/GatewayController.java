@@ -28,7 +28,7 @@ public class GatewayController {
 
     @GetMapping("/list/{pageSize}")
     public String getGatewayList(Model model, @PathVariable Optional<Integer> pageSize, @ModelAttribute GatewayReceiveDto gateway) {
-        List<GatewayResponse> gatewayList = (List<GatewayResponse>) restTemplate.postForEntity("http://localhost:8080/api/gateway/list/" + getPage(pageSize) + "", gateway, ApiResponse.class).getBody().getT();
+        List<GatewayResponse> gatewayList = (List<GatewayResponse>) restTemplate.postForEntity("http://REST-SERVICE/api/gateway/list/" + getPage(pageSize) + "", gateway, ApiResponse.class).getBody().getT();
         model.addAttribute("gateway", new GatewayReceiveDto());
         model.addAttribute("gatewayList", gatewayList);
         model.addAttribute("page", getPage(pageSize));
@@ -38,7 +38,7 @@ public class GatewayController {
 
     @GetMapping("/list/get/{id}")
     public String getGateway(Model model, @PathVariable long id) {
-        Object t = restTemplate.getForEntity("http://localhost:8080/api/gateway/get/" + id + "", ApiResponse.class).getBody().getT();
+        Object t = restTemplate.getForEntity("http://REST-SERVICE/api/gateway/get/" + id + "", ApiResponse.class).getBody().getT();
         GatewayResponse gatewayResponse = objectMapper.convertValue(t, GatewayResponse.class);
         model.addAttribute("gateway", gatewayResponse);
         return "admin/service/gateway/edit";
@@ -46,19 +46,19 @@ public class GatewayController {
 
     @PostMapping("/edit/{id}")
     public String editGateway(@PathVariable("id") long id, @ModelAttribute GatewayReceiveDto gateway) {
-        restTemplate.postForEntity("http://localhost:8080/api/gateway/edit/" + id + "", gateway, ApiResponse.class);
+        restTemplate.postForEntity("http://REST-SERVICE/api/gateway/edit/" + id + "", gateway, ApiResponse.class);
         return "redirect:/admin/gateway/list/1";
     }
 
     @PostMapping("/add")
     public String addGateway(@ModelAttribute GatewayReceiveDto gateway) {
-        restTemplate.postForEntity("http://localhost:8080/api/gateway/add", gateway, ApiResponse.class);
+        restTemplate.postForEntity("http://REST-SERVICE/api/gateway/add", gateway, ApiResponse.class);
         return "redirect:/admin/gateway/list/1";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteGateway(@PathVariable("id") long id) {
-        restTemplate.delete("http://localhost:8080/api/gateway/delete/{id}", id);
+        restTemplate.delete("http://REST-SERVICE/api/gateway/delete/{id}", id);
         return "redirect:/admin/gateway/list/1";
     }
 }

@@ -7,8 +7,8 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: REST-SERVICE/api
-          uri: lb://REST-SERVICE/api
+        - id: REST-SERVICE
+          uri: lb://REST-SERVICE
           predicates:
             - Path=/api/**
         - id: FRONT-SERVICE
@@ -20,7 +20,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "**"
 
 eureka:
   client:

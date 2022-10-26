@@ -26,7 +26,7 @@ public class TransactionController {
 
     @GetMapping("/list/{pageSize}")
     public String getTransaction(Model model, @PathVariable Optional<Integer> pageSize) {
-        List<TransactionResponseDto> transactionList = (List<TransactionResponseDto>) restTemplate.getForEntity("http://localhost:8080/api/transaction/list/" + getPage(pageSize) + "", ApiResponse.class).getBody().getT();
+        List<TransactionResponseDto> transactionList = (List<TransactionResponseDto>) restTemplate.getForEntity("http://REST-SERVICE/api/transaction/list/" + getPage(pageSize) + "", ApiResponse.class).getBody().getT();
         model.addAttribute("transactionList", transactionList);
         model.addAttribute("page", getPage(pageSize));
         model.addAttribute("isEmpty", isEmpty(transactionList.size()));
